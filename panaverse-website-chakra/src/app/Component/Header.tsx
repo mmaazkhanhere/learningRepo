@@ -32,7 +32,7 @@ export default function Header() {
                     gap property places gap between the items in the flex
                     placeItems property places the items within the flew to the center*/}
 
-                        <Link href=''>Home Page</Link>
+                        <Link href=''>Home</Link>
 
                         <Link href=''>Syllabus</Link>
 
