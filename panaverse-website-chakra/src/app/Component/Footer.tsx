@@ -64,7 +64,7 @@ export default function Footer() {
 
                     <Box color='white'>
 
-                        <Heading color='gray'>Contact Us</Heading>
+                        <Heading color='white'>Contact Us</Heading>
                         <Grid pt='40px' color='gray'>
                             <Link href='/'>+92 123 4567890</Link>
                             <Link href='/'>abc@gmail.com</Link>
