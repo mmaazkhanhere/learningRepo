@@ -48,7 +48,7 @@ export default function Header() {
 
                     <Box display={{ base: 'none', lg: 'initial' }} pt='25px'> {/*Separate box for the apply button */}
 
-                        <Button size='lg' colorScheme='teal' float='right' mt='10px'>Apply</Button> {/*The button will shift to the right side of the page
+                        <Button size='lg' colorScheme='teal' float='right' mt='-10px'>Apply</Button> {/*The button will shift to the right side of the page
                         
                     colorScheme* is used to specify the color scheme for the button
                     size sets the size of button to lg
