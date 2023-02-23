@@ -34,15 +34,15 @@ export default function Header() {
                     display property is used to display items when large screen and to hide the flex content when screen shrinks
                     placeItems property places the items within the flew to the center*/}
 
-                        <Link href=''>Home</Link>
+                        <Link href='/'>Home</Link>
 
-                        <Link href=''>Syllabus</Link>
+                        <Link href='/Syllabus'>Syllabus</Link>
 
-                        <Link href=''>Explore</Link>
+                        <Link href='/Explore'>Explore</Link>
 
-                        <Link href=''>About</Link>
+                        <Link href='/About'>About</Link>
 
-                        <Link href=''>Contact</Link>
+                        <Link href='/Contact'>Contact</Link>
 
                     </Flex>
 
