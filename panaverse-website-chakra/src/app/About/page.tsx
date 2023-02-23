@@ -7,6 +7,7 @@ import Image from 'next/image'
 import pres from '../../../public/President.jpg'
 import dao from '../../../public/red-p-logo-text_dao_croped.png'
 import zia from '../../../public/zia.jpg'
+import Instructor from '../Component/Instructor'
 
 
 export default function About_Page() {
@@ -108,6 +109,8 @@ export default function About_Page() {
                     </Flex>
                 </Container>
             </Box>
+
+            <Instructor />
         </>
     )
 }
