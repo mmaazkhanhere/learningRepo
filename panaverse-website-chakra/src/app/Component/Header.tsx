@@ -8,7 +8,7 @@ import { HamburgerIcon } from '@chakra-ui/icons'
 export default function Header() {
     return (
         <Box boxShadow='lg'>
-            <Container maxW={1400}> {/*Containers are used to constrain a content's width to the current breakpoint, while keeping it fluid. They make it easier to create responsive designs 
+            <Container maxW={1800}> {/*Containers are used to constrain a content's width to the current breakpoint, while keeping it fluid. They make it easier to create responsive designs 
             that adapt to different screen sizes and device types.
             
             maxW specifies the maximum width of the container*/}
@@ -48,7 +48,7 @@ export default function Header() {
 
                     <Box display={{ base: 'none', lg: 'initial' }} pt='25px'> {/*Separate box for the apply button */}
 
-                        <Button size='lg' colorScheme='teal' float='right' mt='-10px'>Apply</Button> {/*The button will shift to the right side of the page
+                        <Button size='lg' colorScheme='telegram' float='right' mt='-10px'>Apply</Button> {/*The button will shift to the right side of the page
                         
                     colorScheme* is used to specify the color scheme for the button
                     size sets the size of button to lg
