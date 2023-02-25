@@ -57,7 +57,7 @@ export default function Banner() {
 
                 <Container maxW='1600px'>
 
-                    <Flex Flex gap={{ lg: '100px', base: '10px' }} display={{ lg: 'flex', base: 'grid' }} pt={{ base: '20px', lg: '150px' }}>
+                    <Flex gap={{ lg: '100px', base: '10px' }} display={{ lg: 'flex', base: 'grid' }} pt={{ base: '20px', lg: '150px' }}>
 
                         <Box flexBasis='50%'>
 
@@ -100,7 +100,7 @@ export default function Banner() {
 
                 <Container maxW='1600px'>
 
-                    <Flex Flex gap={{ lg: '100px', base: '10px' }} display={{ lg: 'flex', base: 'grid' }} pt={{ base: '20px', lg: '150px' }}>
+                    <Flex gap={{ lg: '100px', base: '10px' }} display={{ lg: 'flex', base: 'grid' }} pt={{ base: '20px', lg: '150px' }}>
 
 
                         <Box flexBasis='50%' px='40px'>
