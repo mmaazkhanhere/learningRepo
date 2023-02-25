@@ -16,7 +16,7 @@ export default function Syllabus_page() {
                     <Center flexDirection='column'>
 
                         <Heading size='2xl'>Course Syllabus</Heading>
-                        <Text mt='20px' textAlign='center' px='130px' >
+                        <Text mt='20px' textAlign='center' px={{ lg: '130px', base: '50px' }} >
                             The first three quarters are shared by all specialities and are dedicated to studying Object-Oriented Programming and cutting-edge Full-Stack
                             Web 2.0 development. It is going to be a fifteeb month-long hybrid program that includes both onsite and online classes and is divided into five quarters
                             of 13 week each
@@ -33,7 +33,7 @@ export default function Syllabus_page() {
 
                     <Center>
 
-                        <Flex mt='30px' gap='20px'>
+                        <Flex display={{ lg: 'flex', base: 'grid' }} mt='30px' gap={{ lg: '20px', base: '10px' }}>
 
                             <Box textAlign='center' p='30px' boxShadow='dark-lg' borderRadius='20px' width='270px'>
                                 <Heading>Quarter I</Heading>
@@ -59,19 +59,19 @@ export default function Syllabus_page() {
                         <Box key={elem.id}>
                             <Center flexDir='column' mt='50px'>
                                 <Heading size='xl' >{elem.heading_1}</Heading>
-                                <Text mt='20px' textAlign='center' px='130px'>{elem.text_1}</Text>
+                                <Text mt='20px' textAlign='center' px={{ lg: '130px', base: '50px' }}>{elem.text_1}</Text>
                             </Center>
 
                             <Center>
 
-                                <Flex mt='30px' gap='20px' >
+                                <Flex display={{ lg: 'flex', base: 'grid' }} mt='30px' gap={{ lg: '20px', base: '10px' }}>
 
-                                    <Box bgColor='white' textAlign='center' p='50px' boxShadow='dark-lg' borderRadius='20px' width='300px'>
-                                        <Heading>{elem.heading_2}</Heading>
+                                    <Box bgColor='white' textAlign='center' p={{ lg: '50px', base: '20px' }} boxShadow='dark-lg' borderRadius='20px' width='300px'>
+                                        <Heading >{elem.heading_2}</Heading>
                                         <Text mt='30px'>{elem.text_2}</Text>
                                     </Box>
 
-                                    <Box bgColor='white' textAlign='center' p='50px' boxShadow='dark-lg' borderRadius='20px' width='300px'>
+                                    <Box bgColor='white' textAlign='center' p={{ lg: '50px', base: '20px' }} boxShadow='dark-lg' borderRadius='20px' width='300px'>
                                         <Heading>{elem.heading_3}</Heading>
                                         <Text mt='30px'>{elem.text_3}</Text>
                                     </Box>
