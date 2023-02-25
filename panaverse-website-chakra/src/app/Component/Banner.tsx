@@ -71,9 +71,8 @@ export default function Banner() {
 
                         <Box pt={{ base: '10px', lg: '50px' }} flexBasis='50%' px='40px'>
 
-                            <RevealWrapper interval={60} delay={500} origin='top' duration={2000} distance='500px' reset={true}  > {/*With reveal list, you can animate multiple 
+                            <RevealWrapper delay={500} origin='top' duration={2000} distance='500px' reset={true}  > {/*With reveal list, you can animate multiple 
                             elements which will result a sequence animation. First the heading will be animated, then text, and then button.
-                            'interval' is the time between each reveal
                             'delay' is the time before reveal animation begins */}
 
                                 <Heading size='2xl' >Web 3.0</Heading>
