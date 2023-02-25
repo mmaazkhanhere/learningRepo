@@ -43,7 +43,7 @@ export default function Banner() {
 
                             <Box mt={{ base: '10px', lg: '-50px' }} flexBasis='50%'>
 
-                                <Image layout='responsive' src={VR} alt='Virtual Reality' />
+                                <Image src={VR} alt='Virtual Reality' />
 
                             </Box>
 
@@ -63,7 +63,7 @@ export default function Banner() {
 
                             <RevealWrapper origin='right' delay={100} distance='400px' duration={1000} reset={true}>
 
-                                <Image layout='responsive' src={Web3} alt='Metaverse' />
+                                <Image src={Web3} alt='Metaverse' />
 
                             </RevealWrapper>
 
@@ -71,7 +71,7 @@ export default function Banner() {
 
                         <Box pt={{ base: '10px', lg: '50px' }} flexBasis='50%' px='40px'>
 
-                            <RevealList interval={60} delay={500} origin='top' duration={2000} distance='500px' reset={true}  > {/*With reveal list, you can animate multiple 
+                            <RevealWrapper interval={60} delay={500} origin='top' duration={2000} distance='500px' reset={true}  > {/*With reveal list, you can animate multiple 
                             elements which will result a sequence animation. First the heading will be animated, then text, and then button.
                             'interval' is the time between each reveal
                             'delay' is the time before reveal animation begins */}
@@ -87,7 +87,7 @@ export default function Banner() {
 
                                 <Button mt='10px' colorScheme='telegram'>Read More</Button>
 
-                            </RevealList>
+                            </RevealWrapper >
                         </Box>
 
                     </Flex>
@@ -122,7 +122,7 @@ export default function Banner() {
                         <Box flexBasis='50%'>
 
                             <RevealWrapper origin='right' delay={200} duration={2000} distance='400px' reset={true} >
-                                <Image layout='responsive' src={Meta} alt='Metaverse' />
+                                <Image src={Meta} alt='Metaverse' />
                             </RevealWrapper>
                         </Box>
 

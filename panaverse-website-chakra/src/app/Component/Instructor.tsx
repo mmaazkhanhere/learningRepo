@@ -23,7 +23,7 @@ export default function Instructor() {
 
                 <Flex flexDir='row'>
 
-                    {data.map((ins: data) => /*map function is used on array of object that is recieved from the database. It is used to tidy our code as copying and pasting boxes 
+                    {data.map((ins: data) => ( /*map function is used on array of object that is recieved from the database. It is used to tidy our code as copying and pasting boxes 
                    will cluter the code and also increase its size*/
                         <Box >
                             <Center>
@@ -41,7 +41,7 @@ export default function Instructor() {
                             </Text>
 
                         </Box>
-                    )}
+                    ))}
                 </Flex >
             </Container >
         </Box >

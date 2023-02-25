@@ -69,16 +69,24 @@ export default function Header() {
                             <MenuList>
 
                                 <MenuItem>
-                                    <Link href='/'></Link>
+                                    <Link href='/'>Home</Link>
                                 </MenuItem>
 
-                                <MenuItem>Syllabus</MenuItem>
+                                <MenuItem>
+                                    <Link href='/Syllabus' >Syllabus</Link>
+                                </MenuItem>
 
-                                <MenuItem>Explore</MenuItem>
+                                <MenuItem>
+                                    <Link href='/Explore' >Explore</Link>
+                                </MenuItem>
 
-                                <MenuItem>About</MenuItem>
+                                <MenuItem>
+                                    <Link href='/About' >About</Link>
+                                </MenuItem>
 
-                                <MenuItem>Contact</MenuItem>
+                                <MenuItem>
+                                    <Link href='/Contact' >Contact</Link>
+                                </MenuItem>
 
                             </MenuList>
 
