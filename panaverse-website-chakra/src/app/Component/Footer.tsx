@@ -23,7 +23,7 @@ export default function Footer() {
 
                         <Heading pb='20px' color='white'>About Us</Heading>
 
-                        <Image style={{ margin: { base: 'auto', lg: '0px' } }} src={png} alt='Panaverse' />
+                        <Image src={png} alt='Panaverse' />
 
                         <Text pt='15px' pr={{ base: '0', lg: '50' }} >The Future of the Web is Web3.0, Metaverse, and Edge Computing. Panaverse DAO is a movement to spread these technologies globally. It
                             is community of Web3 abd Metaverse developers, designers, trainers, startup founders, and service providers.
