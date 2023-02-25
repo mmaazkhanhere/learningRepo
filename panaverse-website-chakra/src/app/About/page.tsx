@@ -70,7 +70,7 @@ export default function About_Page() {
                         </Box>
 
                         <Box flexBasis='50%' m='auto'>
-                            <Image layout='responsive' src={dao} alt='Panaverse' />
+                            <Image src={dao} alt='Panaverse' />
                         </Box>
                     </Flex>
                 </Container>
