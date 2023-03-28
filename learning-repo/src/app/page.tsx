@@ -1,115 +1,28 @@
-'use client'
-
 import React from 'react'
 
-import { useRef, useEffect } from 'react';
-import { register } from 'swiper/element/bundle';
-
-register();
-
 export default function Home() {
-
-  const swiperElRef = useRef(null);
-
-  useEffect(() => {
-    // listen for Swiper events using addEventListener
-    swiperElRef.current.addEventListener('progress', (e) => {
-      const [swiper, progress] = e.detail;
-      console.log(progress);
-    });
-
-    swiperElRef.current.addEventListener('slidechange', (e) => {
-      console.log('slide changed');
-    });
-  }, []);
-
   return (
-    <div className='container border mx-auto'>
+    <div className="container mx-auto h-8 p-5">
+      <div className="flex justify-between">
+        <div className="flex">
+          <div className="h-10 w-10 rounded-lg bg-gradient-to-r from-purple-400 to-red-600"></div>
+          <h1 className="ml-2 text-3xl text-gray-600">Logo</h1>
+        </div>
+        <div className="mt-2">
+          <a href="" className="p-4 text-gray-600 hover:text-purple-600">Home</a>
+          <a href="" className="p-4 text-gray-600 hover:text-purple-600">Shop</a>
+          <a href="" className="p-4 text-gray-600 hover:text-purple-600">Blog</a>
+          <a href="" className="p-4 text-gray-600 hover:text-purple-600">Contact</a>
+          <a href="" className="rounded-full bg-purple-600 p-3 px-5 text-gray-50 hover:bg-purple-700 hover:text-purple-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 inline-block">
+              <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+            </svg>
 
-      <swiper-container
-        ref={swiperElRef}
-        slides-per-view="1"
-        navigation="true"
-        pagination="true"
-      >
-        <swiper-slide>
-          <section class="flex flex-col items-center border container mx-auto max-w-sm mt-10 p-3 hover:bg-[#2E294E] hover:text-[#F6E7CB] rounded-3xl">
-            <div>
-              <img src="https://e9g2x6t2.rocketcdn.me/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg" alt="" class="w-32 h-32 rounded-full object-cover 
-              border-[4px] border-[#12FBE1]" />
-            </div>
-
-            <div>
-              <p class="text-justify p-8">
-                Big shoutout to [educational institute] for providing me with the opportunity to learn web development! The courses were engaging, the instructors were knowledgeable, and the curriculum was top-notch. I feel confident in my new skills and can't wait to apply them in the real world. Thank you for investing in my future!"
-              </p>
-            </div>
-
-            <div class="flex flex-col">
-              <h1 class="font-bold text-lg">M Maaz Khan</h1>
-              <h3 class="font-thin">PIAIC Student</h3>
-            </div>
-          </section>
-        </swiper-slide>
-
-        <swiper-slide>
-          <section class="flex flex-col items-center border container mx-auto max-w-sm mt-10 p-3 hover:bg-[#2E294E] hover:text-[#F6E7CB] rounded-3xl">
-            <div>
-              <img src="https://e9g2x6t2.rocketcdn.me/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg" alt="" class="w-32 h-32 rounded-full object-cover border-[4px] border-[#12FBE1]" />
-            </div>
-
-            <div>
-              <p class="text-justify p-8">
-                Big shoutout to [educational institute] for providing me with the opportunity to learn web development! The courses were engaging, the instructors were knowledgeable, and the curriculum was top-notch. I feel confident in my new skills and can't wait to apply them in the real world. Thank you for investing in my future!"
-              </p>
-            </div>
-
-            <div class="flex flex-col">
-              <h1 class="font-bold text-lg">M Maaz Khan</h1>
-              <h3 class="font-thin">PIAIC Student</h3>
-            </div>
-          </section>
-        </swiper-slide>
-
-        <swiper-slide>
-          <section class="flex flex-col items-center border container mx-auto max-w-sm mt-10 p-3 hover:bg-[#2E294E] hover:text-[#F6E7CB] rounded-3xl">
-            <div>
-              <img src="https://e9g2x6t2.rocketcdn.me/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg" alt="" class="w-32 h-32 rounded-full object-cover border-[4px] border-[#12FBE1]" />
-            </div>
-
-            <div>
-              <p class="text-justify p-8">
-                Big shoutout to [educational institute] for providing me with the opportunity to learn web development! The courses were engaging, the instructors were knowledgeable, and the curriculum was top-notch. I feel confident in my new skills and can't wait to apply them in the real world. Thank you for investing in my future!"
-              </p>
-            </div>
-
-            <div class="flex flex-col">
-              <h1 class="font-bold text-lg">M Maaz Khan</h1>
-              <h3 class="font-thin">PIAIC Student</h3>
-            </div>
-          </section>
-        </swiper-slide>
-
-        <swiper-slide>
-          <section class="flex flex-col items-center border container mx-auto max-w-sm mt-10 p-3 hover:bg-[#2E294E] hover:text-[#F6E7CB] rounded-3xl">
-            <div>
-              <img src="https://e9g2x6t2.rocketcdn.me/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg" alt="" class="w-32 h-32 rounded-full object-cover border-[4px] border-[#12FBE1]" />
-            </div>
-
-            <div>
-              <p class="text-justify p-8">
-                Big shoutout to [educational institute] for providing me with the opportunity to learn web development! The courses were engaging, the instructors were knowledgeable, and the curriculum was top-notch. I feel confident in my new skills and can't wait to apply them in the real world. Thank you for investing in my future!"
-              </p>
-            </div>
-
-            <div class="flex flex-col">
-              <h1 class="font-bold text-lg">M Maaz Khan</h1>
-              <h3 class="font-thin">PIAIC Student</h3>
-            </div>
-          </section>
-        </swiper-slide>
-        ...
-      </swiper-container>
+            Cart (0)
+          </a>
+        </div>
+      </div>
     </div>
-  );
-};
+
+  )
+}
