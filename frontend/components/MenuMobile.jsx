@@ -60,6 +60,11 @@ export default function MenuMobile({
                     })}
                   </ul>
                 )}
+                {/*This code is using a conditional rendering technique to conditionally render a submenu based on the state of 'showCatMenu'. If the value of the 'showCatMenu' is true
+                the code will execute the code inside the parentheses and render a list of submenu items. The map function is used to iterate over the 'subMenuData' arrau and create a 
+                'li' elemnt for each item in the array. Each submenu is rendered as a link and is assigned a unique key based on its 'id' value. When a submenu item is clicked, the 
+                'onClick' event handler is triggered and calls the 'setShowCatMenu' and 'setMobileMenu' function, which update the values of their respective state variables to false, 
+                which closes the submenu and mobile menu if it is open */}
               </li>
             ) : (
               <li className="py-4 px-5 border-b">
@@ -75,6 +80,9 @@ export default function MenuMobile({
         );
       })}{" "}
       {/*Creating Menu items */}
-    </ul>
+    </ul> /*This code is creating a vertical menu for small screens. Inside the 'ul' a 'map' function is used to iterate over the 'data' array and create a 'li' elemnt for each menu 
+    item. Each item is either a regular item with a link to a url or a menu item with a submenu. If a menu item has a submenu, a chevron down icon is displayed next to the menu item.
+    When the user click on a menu item that has a submenu, the 'onClick' event handler is triggered and the 'showCatMenu' state variable is toggled to display or hide the submenu. if
+    'showCatMenu' state variable is true, a list of submenu item is renderd using another 'map' function to iterate over the 'subMenuData' array.*/
   );
 }

@@ -26,8 +26,10 @@ export default function Header() {
       setShow("translate-y-0");
     }
     setLastScrollY(window.scrollY);
-  }; //functionality that will disappear the navbar when scroll down below 200px but whenever it is scroll up, the navbar will be displayed. Also we dont want this to happen
-  //when mobile menu enabled
+  }; /*functionality that will disappear the navbar when scroll down below 200px but whenever it is scroll up, the navbar will be displayed. Also we dont want this to happen
+  when mobile menu enabled. The above function first check if the user has scrolled more than 200px down the page using the 'window.scrollY' property. If the condition is true,
+  it then checks if the user has scrolled down further than the last scroll, which is stored in lastScrollY variable. If the conditions are met, it sets the 'show' state to
+  translate-y-[80px] making the navbar disappear. Otherwise it sets the 'show' state to shadow-sm which adds a small shadow effect to the navbar*/
 
   useEffect(() => {
     window.addEventListener("scroll", controlNavbar);
@@ -36,6 +38,8 @@ export default function Header() {
     };
   }, [lastScrollY]);
 
+  /*useEffect is a hook that is used to add and remove the 'controlNavbar' event listener whenever the 'lastScrollY' variable changes, ensuring that the function is only called when 
+  necessary */
   return (
     <header
       className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
@@ -59,7 +63,10 @@ export default function Header() {
             setMobileMenu={setMobileMenu}
           />
         )}
-        {/*Whenever the mobileMenu will be true the Menu will be displayed. Otherwise it wont be.  */}
+        {/*This uses a logical operator AND to check if the mobileMenu state is true. If it is true, the MenuMobile is rendered with three props passed to it. 'showCatMenu' prop is
+         used to control the visibility of the category menu inside the MenuMobile compoent.
+        'setShowCatMenu is a function that can be used to update the value of 'showCatMenu' from within the 'MenuMobile' component
+        'setMobileMenu is fucntion that is used to update the value of the 'mobileMenu' state from within the 'MenuMobile' component */}
         {/*Icons displayed */}
         <div className="flex items-center gap-2 text-black">
           {" "}
@@ -100,6 +107,10 @@ export default function Header() {
             )}
           </div>
           {/*Mobile Icon end */}
+          {/* If mobileMenu is true, the <VscChromeClose> icon is rendered, which displays a small "X" symbol to indicate that the menu is currently open. If mobileMenu is false, the 
+          <BiMenuAltRight> icon is rendered, which displays a small "hamburger" symbol to indicate that the menu can be opened. When the icon is click, the onClick event handler is 
+          triggered, which calls the 'setMobileMenu' function, which updates the value of the 'mobileMenu' variable to the opposite of its current valuem causing the icon to switch 
+          between the 'X' symbol and hamburger icon and toggles the visibility of the mobile menu*/}
         </div>
       </Wrapper>
 
