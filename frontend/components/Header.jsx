@@ -29,7 +29,7 @@ export default function Header() {
           <img src="/logo.svg" alt="Logo" className="w-[40px] md:w-[60px]" />
         </Link>{" "}
         {/*We will go to home screen whenever the logo is clicked upon */}
-        <Menu />
+        <Menu showCatMenu={showCatMenu} setShowCatMenu={setShowCatMenu} />
       </Wrapper>
 
       {/*Whatever written here will be displayed on the screen */}
