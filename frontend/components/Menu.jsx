@@ -30,13 +30,18 @@ export default function Menu() {
               "submenu"
             ) : (
               <li className="cursor-pointer">
-                <Link href={item?.url}>{item.name}</Link>
+                <Link href={item?.url}>
+                  {/*path ways are already define up */}
+                  {item.name}
+                </Link>
               </li>
-            )}
-            {/*If submenu is true, show the sub categories otherwise dont */}
+            )}{" "}
+            {/*!!item.subMenu means if it is true than go to if condition else got to else-condition */}
           </React.Fragment>
+          //react fragment  is built in component that allows you to group a list of children without adding any extra markup to the DOM.
         );
-      })}
+      })}{" "}
+      {/*Creating Menu items */}
     </ul>
   );
 }
