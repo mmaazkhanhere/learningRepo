@@ -22,7 +22,9 @@ export default function HeroBanner() {
           >
             <BiArrowBack className="text-sm md:text-lg" />
           </div>
-        )}
+        )} /* a custom function to render the 'previous' arrow button for the Carousel and takes two arguments (1)'clickHandler' is a function that can be called to trigger
+        the previous slide (2)'hasPrev' is a boolean value indicating whether there is a previous slide to display. The function returns a react component that represent a 
+        previous arrow button. When the button is clicked, it triggers the 'clickHandler' function to go to the previous slides*/
         renderArrowNext={(clickHandler, hasNext) => (
           <div
             onClick={clickHandler}
