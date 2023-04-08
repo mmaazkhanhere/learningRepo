@@ -20,7 +20,7 @@ const subMenuData = [
   /*Category Menu when clicked on categories */
 }
 
-export default function Menu({ showCatMenu, setShowCatMenu }) {
+export default function Menu({ showCatMenu, setShowCatMenu, categories }) {
   return (
     <ul className="hidden md:flex items-center gap-8 font-medium text-black">
       {data.map((item) => {
@@ -36,16 +36,16 @@ export default function Menu({ showCatMenu, setShowCatMenu }) {
                 <BsChevronDown size={14} /> {/*Creating submenu */}
                 {showCatMenu && (
                   <ul className="bg-white absolute top-6 left-0 min-w-[250px] px-1 py-1 text-black shadow-lg">
-                    {subMenuData.map((submenu) => {
+                    {categories?.map(({ attributes: c, id }) => {
                       return (
                         <Link
-                          href="/"
-                          key={submenu.id}
+                          href={`/category/${c.slug}`}
+                          key={id}
                           onClick={() => setShowCatMenu(false)}
                         >
                           <li className="h-12 flex justify-between items-center px-3 hover:bg-black/[0.03] rounded-md">
-                            {submenu.name}
-                            <span className="opacity-50 text-sm">78</span>
+                            {c.name}
+                            <span className="opacity-50 text-sm">{`(${c.products.data.length})`}</span>
                           </li>
                         </Link>
                       );
