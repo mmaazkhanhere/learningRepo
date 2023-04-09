@@ -1,18 +1,24 @@
 import ProductDetailsCarousel from '@/components/ProductDetailsCarousel'
 import RelatedProducts from '@/components/RelatedProducts'
 import Wrapper from '@/components/Wrapper'
+import { fetchDataFromApi } from '@/utils/api'
+import { getDiscountedPricePercentage } from '@/utils/helper'
 import React from 'react'
 import { IoMdHeartEmpty } from 'react-icons/io'
 
 
-export default function ProductDetails() {
+
+export default function ProductDetails({product, products}) {
+
+    const p=product?.data?.[0]?.attributes;
+
   return (
     <div className='w-full md:py-20'>
         <Wrapper>
             <div className='flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]'>
                 {/*Left Column Start */}
                 <div className='w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0'>
-                    <ProductDetailsCarousel/>
+                    <ProductDetailsCarousel images={p.image.data}/>
                 </div>
                 {/*Left Column Endd */}
 
@@ -20,15 +26,32 @@ export default function ProductDetails() {
                 <div className='flex-[1] py-3'>
                     {/*Product Title */}
                     <div className='text-[34px] font-semibold mb-2'>
-                        Jordan Retro 6 G
+                        {p.name}
                     </div>
                     {/*Product Subtitle */}
                     <div className='text-lg font-semibold mb-5'>
-                        Men&apos;s Golf Shoes
+                        {p.subtitle}
                     </div>
                     {/*Product Price */}
-                    <div className='text-lg font-semibold'>
-                        MRP: $19.50$
+                    <div className='flex items-center'>
+                        <p className='mr-2 text-lg font-semibold'>
+                            $ {p.price}
+                        </p>
+                        {p.original_price &&(
+                            <>
+                            <p className='text-base font-medium line-through'>
+                                $ {p.original_price}
+                            </p>
+                            <p className='ml-auto text-base font-medium text-green-500'>        
+                                {getDiscountedPricePercentage(
+                                    p.original_price,
+                                    p.price
+                                )}
+                                % off
+                            </p>
+                            </>
+                        )
+                        }
                     </div>
                     <div className='text-md font-medium text-black/[0.5]'>
                         incl. of taxes
@@ -52,7 +75,14 @@ export default function ProductDetails() {
 
                         {/*Size Start */}
                         <div className='grid grid-cols-3 gap-2'>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
+
+                            {p.size.data.map((item,i)=>(
+                                <div key={i} className={`border rounded-md text-center py-3 font-medium 
+                                ${item.enabled ? 'hover:border-black cursor-pointer':'cursor-not-allowed opacity-50 bg-black/[0.1]'}`}>
+                                    {item.size}
+                                </div>
+                            ))}
+                            {/* <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
                                 UK 6
                             </div>
                             <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
@@ -87,7 +117,7 @@ export default function ProductDetails() {
                             <div className='border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 
                             cursor-not-allowed'>
                                 UK 11
-                            </div>
+                            </div> */}
                         </div>
                         {/*Size End */}
 
@@ -140,9 +170,44 @@ export default function ProductDetails() {
                 {/*Right Column Ends */}
             </div>
 
-            <RelatedProducts />
+            {/* <RelatedProducts /> */}
 
         </Wrapper>
     </div>
   )
+}
+
+export async function getStaticPaths() {
+    const products = await fetchDataFromApi("/api/products?populate=*");
+    const paths = products?.data?.map((p) => ({
+        params: {
+            slug: p.attributes.slug,
+        },
+    }));
+
+    return {
+        paths,
+        fallback: false,
+    };
+    /*getStaticPaths is typically used in Nextjs to generate a list of valid paths for dynamic pages at build time
+    - fetchDataFromApi is called to retrieve data from an API endpoint that returns a list of categories with attributes and wati while the fetching is complete
+    - The return data is stored in the cateogry variable
+    - The optional chaining operator (?.) is used to safely access the data property of the category object. If category is 'undefined' or 'null', the
+    value of the paths will be 'undefined'
+    - The 'map' function is called on the 'category.data' array to transform each category  object into an objects with a params property 
+    that contain a slug property. This creates an array of objects that can be used as the 'paths' parameter for the 'getStaticProps' function.
+    - The 'fallback' property is set to 'false', which means that any request for a path that is not in the 'paths' array will result a 404 error */
+}
+
+export async function getStaticProps({ params: { slug } }) {
+    const product = await fetchDataFromApi(`/api/products?populate=*&filters[slug][$eq]=${slug}`
+    );
+    const products = await fetchDataFromApi(`/api/products?populate=*&[filters][slug][$ne]=${slug}`);
+
+    return {
+        props: {
+            product,
+            products
+        },
+};
 }
