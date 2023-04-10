@@ -1,11 +1,16 @@
 import ProductDetailsCarousel from '@/components/ProductDetailsCarousel'
 import RelatedProducts from '@/components/RelatedProducts'
 import Wrapper from '@/components/Wrapper'
+import { addToCart } from '@/store/cartSlice'
 import { fetchDataFromApi } from '@/utils/api'
 import { getDiscountedPricePercentage } from '@/utils/helper'
 import React, { useState } from 'react'
 import { IoMdHeartEmpty } from 'react-icons/io'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import { useSelector, useDispatch } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export default function ProductDetails({product, products}) {
@@ -13,9 +18,23 @@ export default function ProductDetails({product, products}) {
     const p=product?.data?.[0]?.attributes;
     const[selectedSize,setSelectedSize]=useState()
     const[showError,setShowError]=useState(false)
+    const dispatch = useDispatch()
+    const notify =()=>{
+        toast.success('Success. Item added to cart!', {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+    }
 
   return (
     <div className='w-full md:py-20'>
+        <ToastContainer />
         <Wrapper>
             <div className='flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]'>
                 {/*Left Column Start */}
@@ -27,7 +46,7 @@ export default function ProductDetails({product, products}) {
                 {/*Right Column Start */}
                 <div className='flex-[1] py-3'>
                     {/*Product Title */}
-                    <div className='text-[34px] font-semibold mb-2'>
+                    <div className='text-[34px] font-semibold mb-2 leading-tight'>
                         {p.name}
                     </div>
                     {/*Product Subtitle */}
@@ -113,9 +132,24 @@ export default function ProductDetails({product, products}) {
                                 behavior:"smooth"
                             })
                         }
+                        else{
+                            dispatch(addToCart({
+                                ...product?.data?.[0],
+                                selectedSize,
+                                oneQuantityPrice:p.price
+                            }));
+                            notify();
+                        }
                     }}>
                     {/*transition transform add a smooth transition effect to any transformation applied to the button
                     active:scale-95 applies scaling transformation to the button when it is in the active (clicked) state */}
+
+                    {/*The 'onClick' prop sets the event handler function that is executed when the button is clicked. The function checks whether
+                    size is selected or not. If no size is selected, the function sets the variable showError to true and scrolls the element with
+                    an id 'sizeGrid' (which is used be main div so size selection) into view using the 'scrollIntoView' method.
+                    - The block center option specifies that the element should be vertically centered within its container
+                    - The behavior smotth option specifies that the scrolling should be animated smoothly */}
+                    
                         Add to Cart
                     </button>
                     {/*Add to Cart Button Ends */}
