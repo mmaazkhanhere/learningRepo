@@ -3,14 +3,16 @@ import RelatedProducts from '@/components/RelatedProducts'
 import Wrapper from '@/components/Wrapper'
 import { fetchDataFromApi } from '@/utils/api'
 import { getDiscountedPricePercentage } from '@/utils/helper'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoMdHeartEmpty } from 'react-icons/io'
-
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 
 
 export default function ProductDetails({product, products}) {
 
     const p=product?.data?.[0]?.attributes;
+    const[selectedSize,setSelectedSize]=useState()
+    const[showError,setShowError]=useState(false)
 
   return (
     <div className='w-full md:py-20'>
@@ -74,64 +76,44 @@ export default function ProductDetails({product, products}) {
                         {/*Heading End */}
 
                         {/*Size Start */}
-                        <div className='grid grid-cols-3 gap-2'>
+                        <div id='sizeGrid' className='grid grid-cols-3 gap-2'>
 
                             {p.size.data.map((item,i)=>(
                                 <div key={i} className={`border rounded-md text-center py-3 font-medium 
-                                ${item.enabled ? 'hover:border-black cursor-pointer':'cursor-not-allowed opacity-50 bg-black/[0.1]'}`}>
+                                ${item.enabled ? 'hover:border-black cursor-pointer':'cursor-not-allowed opacity-50 bg-black/[0.1]'}
+                                ${selectedSize === item.size ? "border-black" : ""}`} //if a size is selected, a black border will be displayed around it
+                                onClick={()=>{
+                                    setSelectedSize(item.size)
+                                    setShowError(false) 
+                                }}>
                                     {item.size}
                                 </div>
                             ))}
-                            {/* <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 6
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 6.5
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 7
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 7.5
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 8
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 8.5
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 9
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer'>
-                                UK 9.5
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 
-                            cursor-not-allowed'>
-                                UK 10
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 
-                            cursor-not-allowed'>
-                                UK 10.5
-                            </div>
-                            <div className='border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 
-                            cursor-not-allowed'>
-                                UK 11
-                            </div> */}
+                            
                         </div>
                         {/*Size End */}
 
                         {/*Show Error Start */}
-                        <div className='text-red-600 mt-1'>
+                        {showError && <div className='text-red-600 mt-1'> 
                             Size selection is required
-                        </div>
+                        </div>} 
+                        {/*showError if no size is selected and add to cart is clicked on */}
                         {/*Show Error End */}
                     </div>
                     {/*Product Size Range End */}
 
                     {/*Add to Cart */}
                     <button className='w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform 
-                    active:scale-95 mb-3 hover:opacity-75'>
+                    active:scale-95 mb-3 hover:opacity-75'
+                    onClick={()=>{
+                        if(!selectedSize) {
+                            setShowError(true)
+                            document.getElementById("sizeGrid").scrollIntoView({
+                                block:'center',
+                                behavior:"smooth"
+                            })
+                        }
+                    }}>
                     {/*transition transform add a smooth transition effect to any transformation applied to the button
                     active:scale-95 applies scaling transformation to the button when it is in the active (clicked) state */}
                         Add to Cart
@@ -152,17 +134,11 @@ export default function ProductDetails({product, products}) {
                         <div className='text-lg font-bold mb-5'>
                             Product Details
                         </div>
-                        <div className='text-md mb-5'>
-                            Feel unbeatable from the tee box to the final putt in a desing that is pure early MJ: speed, class and
-                            laden with true early '90s touches like visible air and a transculent rubber sole that continues to stand
-                            the test of time. This model fuses the strut of the 1st MJ's championship with some of our best golf technology,
-                             helping you make a statement of confidence when it comes time to tame the course
-                        </div>
-                        <div className='text-md mb-5'>
-                            Feel unbeatable from the tee box to the final putt in a desing that is pure early MJ: speed, class and
-                            laden with true early '90s touches like visible air and a transculent rubber sole that continues to stand
-                            the test of time. This model fuses the strut of the 1st MJ's championship with some of our best golf technology,
-                             helping you make a statement of confidence when it comes time to tame the course
+
+                        <div className='markdown text-md mb-5'>
+                            <ReactMarkdown>
+                                {p.description}
+                            </ReactMarkdown>
                         </div>
                     </div>
                     {/*Product Details End */}
@@ -170,7 +146,7 @@ export default function ProductDetails({product, products}) {
                 {/*Right Column Ends */}
             </div>
 
-            {/* <RelatedProducts /> */}
+            <RelatedProducts  products={products}/>
 
         </Wrapper>
     </div>
