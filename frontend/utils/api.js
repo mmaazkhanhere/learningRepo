@@ -16,3 +16,17 @@ export const fetchDataFromApi = async (endpoint) => {
     
     return data;  //returns the parsed JSON data to the caller of the function
 }
+
+export const makePaymentRequest = async (endpoint, payload) => {//takes two arguments, an endpoint and a payload
+    const res = await fetch(`${API_URL}${endpoint}`, { /*uses the fetch method to make a POST request to an API endpoint constructed from the API_URL
+    constan and the endpoint argument */
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + STRAPI_API_TOKEN,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload), //payload argument is converted to a JSON string and included as the body of the request
+    });
+    const data = await res.json();
+    return data;
+};

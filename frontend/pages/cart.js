@@ -1,13 +1,21 @@
 import Wrapper from '@/components/Wrapper'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import CartItem from '@/components/CartItem'
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
+import { makePaymentRequest } from "@/utils/api";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+)
 
 
 export default function Cart() {
+
+    const [loading,setLoading]=useState(false)
 
     const {cartItems} =useSelector((state)=>state.cart)
 
@@ -19,6 +27,30 @@ export default function Cart() {
 
     },[cartItems]) /*uses the 'useMemo' hook to calculates the subtotal value by using reduce method on the 'cartItems' array, which iterates over each item in the array
     and returns a single value, which is the sum of all items prices*/
+
+    const handlePayment = async () => { /*defines an asynchronous function called handlePayment that is triggered when a user clicks a button
+    to make a payment */
+
+        try { 
+            setLoading(true);//sets the state of loading to true indicating that the paymenr process has started
+
+            const stripe = await stripePromise; //awaits the promise, which is a promise that resolves to the Stripe SDK once it has finished loading
+            
+            const res = await makePaymentRequest("/api/orders", { /*calls the funciton with an enpoint URL and an object containing the 'cartItems' that
+the user wants to purchase. This function sends a POST request to the specified endpoint and returnsna reponse containing a stripeSession object*/
+                products: cartItems,
+            });
+
+            await stripe.redirectToCheckout({/*this method is called with the sessionId from the response recieved in the previous step. This function
+            opens a checkout page in a new window allowing the user to complete the payment process */
+
+                sessionId: res.stripeSession.id,
+            });
+        } catch (error) { //if error occurs during the session, the function catches the error amd set the state of loading to false and logs error in console
+            setLoading(false);
+            console.log(error);
+        }
+    };
 
   return (
     <div className='w-full md:py-20'>
@@ -70,11 +102,17 @@ export default function Cart() {
                                 </div>
                             </div>
 
-                            {/*button Start */}
-                            <button className='w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform
-                            active:scale-95 mb-3 hover:opacity-75'>
+                            {/* BUTTON START */}
+                            <button
+                            className="w-full py-4 rounded-full bg-black text-white text-lg font-medium 
+                            transition-transform active:scale-95 mb-3 hover:opacity-75 flex items-center 
+                            gap-2 justify-center"
+                            onClick={handlePayment}
+                            >
                                 Checkout
+                                {loading && <img src="/spinner.svg" />}
                             </button>
+                            {/* BUTTON END */}
                         </div>
                         {/*Cart summary end */}
                     </div>
