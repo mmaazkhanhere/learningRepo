@@ -1,7 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
-const { fontFamily } = require("tailwindcss/defaultTheme");
-
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,10 +6,17 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "350px",
+      md: "650px",
+      lg: "1024px",
+      xl: "1440px",
+      xxl: "2560px",
+    },
+    fontFamily: {
+      montserrat: "Montserrat, sans-serif",
+    },
     extend: {
-      fontFamily: {
-        mont: ["var(--font-mont)", ...fontFamily.sans],
-      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
