@@ -13,6 +13,12 @@ module.exports = {
       xl: "1440px",
       xxl: "2560px",
     },
+    colors: {
+      dark: "#1b1b1b",
+      light: "#f5f5f5",
+      primary: "#B63E96",
+      primaryDark: "#58E6D9",
+    },
     fontFamily: {
       montserrat: "Montserrat, sans-serif",
     },
