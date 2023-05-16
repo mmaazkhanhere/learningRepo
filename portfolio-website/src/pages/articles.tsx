@@ -6,6 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import articleImg from '../../public/article.png'
 import articleImg2 from "../../public/article2.jpg"
+import articleImg3 from "../../public/article3.jpg"
+import articleImg4 from "../../public/article4.jpg"
 import { motion, useMotionValue } from "framer-motion"
 
 const FramerImage = motion(Image)
@@ -35,6 +37,7 @@ const MovingImg = ({ title, img, link }) => {
             <h2 className='capitalise text-xl font-semibold hover:underline'>{title}</h2>
             <FramerImage
                 style={{ x: x, y: y }}
+                initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1, transition: { duration: 0.2 } }}
                 ref={imgRef} src={img} alt={title} className='z-10 w-96 auto hidden absolute rounded-lg' />
         </Link>
@@ -43,11 +46,15 @@ const MovingImg = ({ title, img, link }) => {
 
 const Article = ({ img, title, date, link }) => {
     return (
-        <li className='relative w-full p-4 py-6 my-4 rounded-xl flex items-center justify-between bg-light
+        <motion.li
+            initial={{ y: 200 }}
+            whileInView={{ y: 0, transition: { duration: 0.5, ease: "easeInOut" } }}
+            viewport={{ once: true }}
+            className='relative w-full p-4 py-6 my-4 rounded-xl flex items-center justify-between bg-light
         text-dark first:mt-0 border border-solid border-dark border-r-4 border-b-4'>
             <MovingImg title={title} img={img} link={link} />
             <span className='text-primary font-semibold pl-4'>{date}</span>
-        </li>
+        </motion.li>
 
     )
 }
@@ -62,7 +69,8 @@ const FeaturedArticle = ({ img, title, time, summary, link }) => {
                 className='w-full inline-block cursor-pointer overflow-hidden rounded-lg'>
                 <FramerImage src={img} alt={title} className="w-full h-auto"
                     whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }} />
+                    transition={{ duration: 0.2 }}
+                />
             </Link>
             <Link href={link}
                 target='_blank'>
@@ -118,7 +126,13 @@ export default function Articles() {
                             title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
                             date="March 22, 2023"
                             link="/"
-                            img={articleImg2}
+                            img={articleImg3}
+                        />
+                        <Article
+                            title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
+                            date="March 22, 2023"
+                            link="/"
+                            img={articleImg4}
                         />
                         <Article
                             title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
@@ -130,19 +144,13 @@ export default function Articles() {
                             title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
                             date="March 22, 2023"
                             link="/"
-                            img={articleImg2}
+                            img={articleImg3}
                         />
                         <Article
                             title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
                             date="March 22, 2023"
                             link="/"
-                            img={articleImg2}
-                        />
-                        <Article
-                            title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
-                            date="March 22, 2023"
-                            link="/"
-                            img={articleImg2}
+                            img={articleImg4}
                         />
                         <Article
                             title="Form Validation in ReactJS: Build A Reusable Custom Hook For Inputs and Error Handling"
