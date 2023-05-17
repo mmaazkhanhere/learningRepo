@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 export default function Document() {
   return (
@@ -13,6 +14,26 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap" rel="stylesheet" />
       </Head>
       <body>
+        <Script id='theme-switcher' strategy='beforeInteractive'>
+          {
+            `
+          if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+          } else {
+            document.documentElement.classList.remove('dark')
+          }
+
+// Whenever the user explicitly chooses light mode
+          localStorage.theme = 'light'
+
+          // Whenever the user explicitly chooses dark mode
+          localStorage.theme = 'dark'
+
+          // Whenever the user explicitly chooses to respect the OS preference
+          localStorage.removeItem('theme')
+          `
+          }
+        </Script>
         <Main />
         <NextScript />
       </body>
