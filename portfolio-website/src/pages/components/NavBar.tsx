@@ -3,6 +3,7 @@ import React from 'react'
 import { Logo } from './Logo'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
+import useThemeSwitcher from './hooks/useThemeSwitcher'
 
 const CustomLink = ({ href, title, className = "" }) => {
     const router = useRouter();
@@ -10,9 +11,9 @@ const CustomLink = ({ href, title, className = "" }) => {
     return (
         <Link href={href} className={`${className} relative group`}>
             {title}
-            <span className={`h-[1px] inline-block bg-dark absolute left-0 
-            -bottom-0.5 group-hover:w-full transistion-[width] duration-300 
-            ${router.asPath === href ? 'w-full' : 'w-0'}`}>
+            <span className={`h-[1px] inline-block bg-dark absolute left-0 -bottom-0.5 group-hover:w-full 
+            transistion-[width] ease duration-300 
+            ${router.asPath === href ? 'w-full' : 'w-0'} dark:bg-light`}>
                 {/*The router.asPath checks whether the user is on same page as that on the router. If yes, that page
             link would be underlined (w-full). */}
                 &nbsp;
@@ -21,10 +22,30 @@ const CustomLink = ({ href, title, className = "" }) => {
     )
 }
 
+export function SunIcon() {
+    return (
+        <>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm8 24a64 64 0 1 0 64 64a64.07 64.07 0 0 0-64-64Zm-69.66 5.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z" /></svg>
+        </>
+    )
+}
+
+export function MoonIcon() {
+    return (
+        <>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M236.37 139.4a12 12 0 0 0-12-3A84.07 84.07 0 0 1 119.6 31.59a12 12 0 0 0-15-15a108.86 108.86 0 0 0-54.91 38.48A108 108 0 0 0 136 228a107.09 107.09 0 0 0 64.93-21.69a108.86 108.86 0 0 0 38.44-54.94a12 12 0 0 0-3-11.97Zm-49.88 47.74A84 84 0 0 1 68.86 69.51a84.93 84.93 0 0 1 23.41-21.22Q92 52.13 92 56a108.12 108.12 0 0 0 108 108q3.87 0 7.71-.27a84.79 84.79 0 0 1-21.22 23.41Z" /></svg>
+        </>
+    )
+}
+
 
 export default function NavBar() {
+
+    const [mode, setMode] = useThemeSwitcher();
+
     return (
-        <header className='w-full px-32 py-8 font-montserrat font-medium flex items-center justify-between'>
+        <header className='w-full px-32 py-8 font-montserrat font-medium flex items-center justify-between
+        dark:text-light'>
             <nav>
                 <CustomLink className='mr-4' href={"/"} title="Home" />
                 <CustomLink className='mx-4' href={"/about"} title="About" />
@@ -39,16 +60,7 @@ export default function NavBar() {
                 </motion.a>
 
                 <motion.a href="https://github.com/" target={'_blank'} className='w-6 mx-3' whileHover={{ y: -2 }} whileTap={{ scale: 0.9 }}>
-                    <svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_9_21)">
-                            <path d="M20 10.25C20 12.484 19.364 14.493 18.092 16.277C16.821 18.061 15.178 19.295 13.164 19.98C12.93 20.025 12.758 19.994 12.65 19.887C12.5967 19.8352 12.5547 19.7729 12.5267 19.704C12.4986 19.6352 12.4851 19.5613 12.487 19.487V16.67C12.487 15.807 12.261 15.175 11.81 14.775C12.2606 14.7298 12.7069 14.6495 13.145 14.535C13.539 14.428 13.947 14.255 14.368 14.015C14.7728 13.7885 15.1308 13.4872 15.423 13.127C15.705 12.775 15.935 12.308 16.113 11.725C16.291 11.142 16.38 10.473 16.38 9.717C16.38 8.64 16.037 7.723 15.352 6.967C15.672 6.157 15.638 5.25 15.247 4.244C15.004 4.164 14.653 4.214 14.193 4.391C13.7757 4.54774 13.3746 4.74432 12.995 4.978L12.5 5.298C11.687 5.06621 10.8454 4.94974 10 4.952C9.15453 4.95006 8.31298 5.06687 7.5 5.299C7.31914 5.17375 7.13473 5.0537 6.947 4.939C6.717 4.796 6.354 4.625 5.859 4.425C5.365 4.225 4.991 4.165 4.739 4.245C4.358 5.25 4.327 6.157 4.649 6.967C3.963 7.723 3.619 8.64 3.619 9.717C3.619 10.473 3.709 11.14 3.887 11.719C4.065 12.297 4.293 12.764 4.57 13.12C4.85724 13.4839 5.21335 13.7877 5.618 14.014C6.039 14.254 6.448 14.428 6.842 14.534C7.237 14.642 7.682 14.722 8.177 14.775C7.83 15.095 7.617 15.554 7.539 16.15C7.35256 16.2403 7.15576 16.3075 6.953 16.35C6.70865 16.398 6.45999 16.4204 6.211 16.417C5.924 16.417 5.641 16.321 5.358 16.13C5.076 15.938 4.835 15.66 4.635 15.296C4.47877 15.0207 4.26322 14.7837 4.004 14.602C3.748 14.424 3.533 14.317 3.359 14.282L3.099 14.242C2.917 14.242 2.791 14.262 2.721 14.302C2.651 14.342 2.631 14.392 2.656 14.455C2.68541 14.5228 2.72485 14.5859 2.773 14.642C2.82295 14.702 2.88004 14.7558 2.943 14.802L3.033 14.868C3.225 14.958 3.413 15.127 3.6 15.376C3.787 15.625 3.924 15.852 4.01 16.056L4.14 16.363C4.253 16.701 4.444 16.975 4.714 17.184C4.983 17.394 5.274 17.527 5.586 17.584C5.898 17.642 6.2 17.674 6.491 17.678C6.781 17.682 7.023 17.667 7.214 17.631L7.513 17.578C7.513 17.916 7.515 18.312 7.52 18.766L7.526 19.486C7.526 19.646 7.47 19.78 7.356 19.886C7.244 19.994 7.07 20.025 6.836 19.98C4.822 19.295 3.179 18.06 1.908 16.277C0.636 14.493 0 12.484 0 10.25C0 8.39 0.447 6.676 1.341 5.105C2.20648 3.56416 3.46175 2.27785 4.981 1.375C6.4955 0.463316 8.23231 -0.0125011 10 3.15669e-06C11.768 -0.0126855 13.5052 0.463138 15.02 1.375C16.5389 2.27799 17.7938 3.56428 18.659 5.105C19.553 6.675 20 8.391 20 10.25Z" fill="black" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_9_21">
-                                <rect width="25" height="25" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 1024 1024"><path fill="currentColor" d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5C64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9c26.4 39.1 77.9 32.5 104 26c5.7-23.5 17.9-44.5 34.7-60.8c-140.6-25.2-199.2-111-199.2-213c0-49.5 16.3-95 48.3-131.7c-20.4-60.5 1.9-112.3 4.9-120c58.1-5.2 118.5 41.6 123.2 45.3c33-8.9 70.7-13.6 112.9-13.6c42.4 0 80.2 4.9 113.5 13.9c11.3-8.6 67.3-48.8 121.3-43.9c2.9 7.7 24.7 58.3 5.5 118c32.4 36.8 48.9 82.7 48.9 132.3c0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9c177.1-59.7 304.6-227 304.6-424.1c0-247.2-200.4-447.3-447.5-447.3z" /></svg>
 
                 </motion.a>
 
@@ -78,6 +90,12 @@ export default function NavBar() {
                     </svg>
 
                 </motion.a>
+
+                <button onClick={() => setMode(mode === "light" ? "dark" : "light")}
+                    className={`ml-3 flex items-center justify-center rounded-full p-1
+                    ${mode === "light" ? "bg-dark text-light" : "bg-light text-dark"}`}>
+                    {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
+                </button>
 
             </nav>
             <div className=' absolute left-[50%] top-2 translate-x-[-50%]'>

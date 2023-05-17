@@ -5,14 +5,18 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 
 export default function App({ Component, pageProps }: AppProps) {
-  <Head>
-    <title>Portfolio Website</title>
-  </Head>
   return (
     <>
-      <NavBar />
-      <Component {...pageProps} />
-      <Footer />
+      <Head>
+        <title>Portfolio Website</title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+
+      <main className={`font-montserrat bg-light dark:bg-dark w-full min-h-screen`}>
+        <NavBar />
+        <Component {...pageProps} />
+        <Footer />
+      </main>
     </>
   )
 }
