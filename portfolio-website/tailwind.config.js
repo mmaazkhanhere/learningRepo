@@ -11,12 +11,12 @@ module.exports = {
       montserrat: "Montserrat, sans-serif",
     },
     screens: {
-      xs: { max: "479px" },
-      sm: { max: "639px" },
-      md: { max: "767px" },
-      lg: { max: "1024px" },
+      "2xl": { max: "1535px" },
       xl: { max: "1279px" },
-      "2xl": { max: "1353px" },
+      lg: { max: "1023px" },
+      md: { max: "767px" },
+      sm: { max: "639px" },
+      xs: { max: "479px" },
     },
     extend: {
       animation: {

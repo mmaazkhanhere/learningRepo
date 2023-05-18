@@ -76,7 +76,7 @@ export default function NavBar() {
 
     return (
         <header className='w-full px-32 py-8 font-montserrat font-medium flex items-center justify-between
-        dark:text-light relative'>
+        dark:text-light relative z-10 lg:px-16 md:px-12 sm:px-8'>
 
             <button className='lg:flex flex-col justify-center items-center hidden' onClick={handleClick}>
                 <span className={`bg-dark dark:bg-light block transition-all duration-300 ease-out h-0.5 
