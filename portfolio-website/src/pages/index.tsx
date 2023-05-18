@@ -30,7 +30,7 @@ export default function Home() {
             <div className='w-1/2 flex flex-col items-center self-center lg:w-full lg:text-center'>
               <AnimatedText text="Turning Vision Into Reality With Code And Design" className='!text-6xl 
               !text-left xl:!text-5xl lg:!text-center lg:!text-6xl md:!text-5xl sm:!text-3xl' />
-              <p className='font-montserrat my-4 text-base font-medium'>
+              <p className='font-montserrat my-4 text-base font-medium md:text-sm sm:text-xs'>
                 As a skilled full-stack developer, I am dedicated to turning ideas into innovative web applications.
                 Explore my latest projects and articles, showcasing my expertise in React.js and web development
               </p>
@@ -39,14 +39,15 @@ export default function Home() {
                   className='flex items-center bg-dark text-light p-2.5 px-6 rounded-lg text-lg 
                 font-semibold hover:bg-light hover:text-dark border border-solid border-trasparent 
                 hover:border-dark dark:bg-light dark:text-dark hover:dark:bg-dark 
-                hover:dark:text-light hover:dark:border-light'
+                hover:dark:text-light hover:dark:border-light md:p-2 md:px-4 md:text-base'
                   download={true}>
                   Resume
                   <svg className='ml-1' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 4H4v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5M9 15L20 4m-5 0h5v5" />
                   </svg>
                 </Link>
                 <Link href={"mailto:mmaazkhan@outlook.com"} target={"_blank"}
-                  className='ml-4 text-lg font-medium capitalize text-dark underline dark:text-light '>
+                  className='ml-4 text-lg font-medium capitalize text-dark underline dark:text-light 
+                  md:text-base'>
                   Contact
                 </Link>
               </div>
