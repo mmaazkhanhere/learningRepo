@@ -5,7 +5,13 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import useThemeSwitcher from './hooks/useThemeSwitcher'
 
-const CustomLink = ({ href, title, className = "" }) => {
+interface CustomLinkType {
+    href: string;
+    title: string;
+    className?: string;
+}
+
+const CustomLink = ({ href, title, className = "" }: CustomLinkType) => {
     const router = useRouter();
     return (
         <Link href={href} className={`${className} relative group`}>
@@ -21,19 +27,28 @@ const CustomLink = ({ href, title, className = "" }) => {
     )
 }
 
-const CustomMobileLink = ({ href, title, className = "", toggle }) => {
+interface CustomMobileLinkType {
+    href: string;
+    title: string;
+    className?: string;
+    toggle: () => void;
+}
+
+const CustomMobileLink = ({ href, title, className = "", toggle }: CustomMobileLinkType) => {
     const router = useRouter();
 
     const handleClick = () => {
         toggle();
+        console.log(toggle)
         router.push(href)
     }
 
     return (
-        <button href={href}
+        <button
             className={`${className} relative group text-light dark:text-dark my-2`}
             onClick={handleClick}
         >
+
             {title}
             <span className={`h-[1px] inline-block bg-light absolute left-0 -bottom-0.5 group-hover:w-full 
             transistion-[width] ease duration-300 

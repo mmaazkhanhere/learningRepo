@@ -3,8 +3,16 @@ import React, { useRef } from 'react'
 import { motion, useScroll } from 'framer-motion'
 import LiIcon from './LiIcon'
 
+interface DetailType {
+    position: string;
+    company: string;
+    companyLink?: string;
+    time: string;
+    address: string;
+    work: string
+}
 
-const Details = ({ position, company, companyLink, time, address, work }) => {
+const Details = ({ position, company, companyLink, time, address, work }: DetailType) => {
     const ref = useRef(null);
     return <li ref={ref} className='my-8 first:mt-0 last:mb-0 w-[60%] mx-auto flex flex-col items-center
     justify-between md:w-[80%]'>

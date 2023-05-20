@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import { motion } from 'framer-motion'
-import { transition } from "@chakra-ui/react";
 
 const MotionLink = motion(Link);
 

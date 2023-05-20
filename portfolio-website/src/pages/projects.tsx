@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import Layout from './components/Layout'
 import AnimatedText from './components/AnimatedText'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import project1 from "../../public/project_1.png"
 import { motion } from "framer-motion"
@@ -10,7 +10,16 @@ import TransitionEffect from './components/TransitionEffect'
 
 const FramerImage = motion(Image)
 
-const FeaturedProject = ({ type, title, summary, img, link, github }) => {
+interface FeaturedProjectType {
+    type: string;
+    title: string;
+    summary: string;
+    img: StaticImageData;
+    link: string;
+    github: string;
+}
+
+const FeaturedProject = ({ type, title, summary, img, link, github }: FeaturedProjectType) => {
     return (
         <article className='w-full flex items-center relative justify-between rounded-3xl border border-solid
          border-dark bg-light shadow-2xl p-12 rounded-br-2xl dark:bg-dark dark:border-light
@@ -52,7 +61,15 @@ const FeaturedProject = ({ type, title, summary, img, link, github }) => {
     )
 }
 
-const Project = ({ title, type, img, link, github }) => {
+interface ProjectType {
+    title: string;
+    type: string;
+    img: StaticImageData;
+    link: string;
+    github: string;
+}
+
+const Project = ({ title, type, img, link, github }: ProjectType) => {
     return (
         <article className='w-full flex flex-col items-center justify-center rounded-2xl border border-solid 
         border-dark bg-light relative p-6 dark:bg-dark dark:border-light xs:p-4'>
@@ -117,7 +134,6 @@ export default function Projects() {
                         <div className='col-span-6 sm:col-span-12'>
                             <Project
                                 title={"Crypto Screener Application"}
-                                summary={"A feature-rich Crypto Screener App using Raect, TailwindCSS, Context API, React Router and Recahrts. It shows detail regarding almost all the cryptocurrency. You can easily convert the price in your local currency"}
                                 link={"/"}
                                 type="Featured Project"
                                 img={project1}
@@ -128,7 +144,6 @@ export default function Projects() {
                         <div className='col-span-6 sm:col-span-12'>
                             <Project
                                 title={"Crypto Screener Application"}
-                                summary={"A feature-rich Crypto Screener App using Raect, TailwindCSS, Context API, React Router and Recahrts. It shows detail regarding almost all the cryptocurrency. You can easily convert the price in your local currency"}
                                 link={"/"}
                                 type="Featured Project"
                                 img={project1}
@@ -150,7 +165,6 @@ export default function Projects() {
                         <div className='col-span-6 sm:col-span-12'>
                             <Project
                                 title={"Crypto Screener Application"}
-                                summary={"A feature-rich Crypto Screener App using Raect, TailwindCSS, Context API, React Router and Recahrts. It shows detail regarding almost all the cryptocurrency. You can easily convert the price in your local currency"}
                                 link={"/"}
                                 type="Featured Project"
                                 img={project1}
@@ -160,7 +174,6 @@ export default function Projects() {
                         <div className='col-span-6 sm:col-span-12'>
                             <Project
                                 title={"Crypto Screener Application"}
-                                summary={"A feature-rich Crypto Screener App using Raect, TailwindCSS, Context API, React Router and Recahrts. It shows detail regarding almost all the cryptocurrency. You can easily convert the price in your local currency"}
                                 link={"/"}
                                 type="Featured Project"
                                 img={project1}

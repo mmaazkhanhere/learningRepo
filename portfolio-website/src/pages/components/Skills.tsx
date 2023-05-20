@@ -1,7 +1,14 @@
 import React from 'react'
 import { motion } from "framer-motion"
 
-const Skill = ({ name, x, y }) => {
+interface SkillType {
+    name: string;
+    x: string;
+    y: string;
+
+}
+
+const Skill = ({ name, x, y }: SkillType) => {
     return (
         <motion.div className='flex items-center justify-center rounded-full font-semibold bg-dark text-light 
         py-3 px-6 shadow-dark cursor-pointer absolute dark:text-dark dark:bg-light lg:py-2 lg:px-4 md

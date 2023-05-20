@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { RefObject } from 'react';
 import { motion, useScroll } from 'framer-motion'
 
-export default function LiIcon({ reference }) {
+
+interface LiIconType {
+    reference: RefObject<HTMLDivElement>;
+}
+
+export default function LiIcon({ reference }: LiIconType) {
+    console.log(reference)
     const { scrollYProgress } = useScroll(
         {
             target: reference,

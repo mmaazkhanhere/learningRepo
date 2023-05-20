@@ -16,7 +16,7 @@ const FramerImage = motion(Image)
 
 interface MovingImageType {
     title: string;
-    img: StaticImageDataclera;
+    img: StaticImageData;
     link: string;
 }
 
