@@ -9,6 +9,7 @@ import articleImg2 from "../../public/article2.jpg"
 import articleImg3 from "../../public/article3.jpg"
 import articleImg4 from "../../public/article4.jpg"
 import { motion, useMotionValue } from "framer-motion"
+import TransitionEffect from './components/TransitionEffect'
 
 const FramerImage = motion(Image)
 
@@ -101,6 +102,9 @@ export default function Articles() {
                 <title>Maaz Khan | Articles</title>
                 <meta name="description" content="any description" />
             </Head>
+
+            <TransitionEffect />
+
             <main className=' w-full flex flex-col items-center justify-center overflow-hidden dark:text-light'>
                 <Layout className='pt-16'>
                     <AnimatedText text="Words Can Change the World!"

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import project1 from "../../public/project_1.png"
 import { motion } from "framer-motion"
+import TransitionEffect from './components/TransitionEffect'
 
 const FramerImage = motion(Image)
 
@@ -96,6 +97,7 @@ export default function Projects() {
                 <title>Maaz Khan | Projects Page</title>
                 <meta name='description' content='created with nextjs' />
             </Head>
+            <TransitionEffect />
             <main className='w-full mb-16 flex flex-col items-center justify-center dark:text-light'>
                 <Layout className='pt-16'>
                     <AnimatedText text="Imagination Trumps Knowledge!"
