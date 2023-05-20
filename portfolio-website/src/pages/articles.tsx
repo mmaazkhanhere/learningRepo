@@ -3,49 +3,83 @@ import Head from 'next/head'
 import Layout from './components/Layout'
 import AnimatedText from './components/AnimatedText'
 import Link from 'next/link'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import articleImg from '../../public/article.png'
 import articleImg2 from "../../public/article2.jpg"
 import articleImg3 from "../../public/article3.jpg"
 import articleImg4 from "../../public/article4.jpg"
 import { motion, useMotionValue } from "framer-motion"
 import TransitionEffect from './components/TransitionEffect'
+import { title } from 'process'
 
 const FramerImage = motion(Image)
 
-const MovingImg = ({ title, img, link }) => {
+interface MovingImageType {
+    title: string;
+    img: StaticImageDataclera;
+    link: string;
+}
 
+interface ArticleType {
+    img: StaticImageData;
+    title: string;
+    date: string;
+    link: string;
+}
+
+interface FeaturedArticleType {
+    img: StaticImageData;
+    title: string;
+    time: string;
+    summary: string;
+    link: string;
+}
+
+
+interface MovingImageType {
+    title: string;
+    img: StaticImageData;
+    link: string;
+}
+
+const MovingImg = ({ title, img, link }: MovingImageType) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const imgRef = useRef(null);
+    const imgRef = useRef<HTMLImageElement>(null);
 
-    function handleMouse(event) {
-        imgRef.current.style.display = "inline-block"
-        x.set(event.pageX);
-        y.set(-10);
+    function handleMouse(event: React.MouseEvent) {
+        if (imgRef.current) {
+            imgRef.current.style.display = "inline-block";
+            x.set(event.pageX);
+            y.set(-10);
+        }
     }
-    function handleMouseLeave(event) {
-        imgRef.current.style.display = "none"
-        x.set(0);
-        y.set(0);
+
+    function handleMouseLeave(event: React.MouseEvent) {
+        if (imgRef.current) {
+            imgRef.current.style.display = "none";
+            x.set(0);
+            y.set(0);
+        }
     }
 
     return (
-        <Link href={link} target='_blank'
-            onMouseMove={handleMouse}
-            onMouseLeave={handleMouseLeave}
-        >
-            <h2 className='capitalise text-xl font-semibold hover:underline'>{title}</h2>
+        <Link href={link} target="_blank" onMouseMove={handleMouse} onMouseLeave={handleMouseLeave}>
+            <h2 className="capitalise text-xl font-semibold hover:underline">{title}</h2>
             <FramerImage
                 style={{ x: x, y: y }}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1, transition: { duration: 0.2 } }}
-                ref={imgRef} src={img} alt={title} className='z-10 w-96 auto hidden absolute rounded-lg md:!hidden' />
+                ref={imgRef}
+                src={img}
+                alt={title}
+                className="z-10 w-96 auto hidden absolute rounded-lg md:!hidden"
+            />
         </Link>
-    )
-}
+    );
+};
 
-const Article = ({ img, title, date, link }) => {
+const Article = ({ img, title, date, link }: ArticleType) => {
     return (
         <motion.li
             initial={{ y: 200 }}
@@ -61,7 +95,7 @@ const Article = ({ img, title, date, link }) => {
     )
 }
 
-const FeaturedArticle = ({ img, title, time, summary, link }) => {
+const FeaturedArticle = ({ img, title, time, summary, link }: FeaturedArticleType) => {
     return (
         <li className='col-span-1 w-full p-4 bg-light border border-solid relative border-dark 
         rounded-2xl dark:bg-dark dark:border-light'>
@@ -108,7 +142,7 @@ export default function Articles() {
             <main className=' w-full flex flex-col items-center justify-center overflow-hidden dark:text-light'>
                 <Layout className='pt-16'>
                     <AnimatedText text="Words Can Change the World!"
-                        lassName='mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl xs:!text-4xl' />
+                        className='mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl xs:!text-4xl' />
                     <ul className='grid grid-cols-2 gap-16 md:grid-cols-1 lg:gap-8 md:gap-y-16'>
                         <FeaturedArticle
                             title={"Build A Custom Pagination Component in ReactJS From Scratch"}
