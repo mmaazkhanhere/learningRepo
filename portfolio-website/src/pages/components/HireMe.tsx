@@ -6,7 +6,7 @@ import React from 'react'
 export default function HireMe() {
     return (
         <div className='fixed left-4 bottom-4 flex items-center justify-center overflow-hidden md:right-8
-        md:left-auto md:top-0 md:bottom-auto md:absolute'>
+        md:left-auto md:top-0 md:bottom-auto md:absolute sm:right-0'>
             <div className='w-48 h-auto items-center justify-center relative'>
                 <Image src="/rounded-text.svg" alt="Title" width={400} height={400} className='fill-dark 
                 animate-spin-slow' />
