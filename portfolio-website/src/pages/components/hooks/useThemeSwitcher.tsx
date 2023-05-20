@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-export default function useThemeSwitcher() {
+type ThemeMode = 'light' | 'dark';
 
+export default function useThemeSwitcher(): [ThemeMode, React.Dispatch<React.SetStateAction<ThemeMode>>] {
     const preferDarkQuery = "(prefer-color-scheme: dark)";
-    const [mode, setMode] = useState('');
+    const [mode, setMode] = useState<ThemeMode>('light');
 
     useEffect(() => {
         const mediaQuery = window.matchMedia(preferDarkQuery);
@@ -11,43 +12,41 @@ export default function useThemeSwitcher() {
 
         const handleChange = () => {
             if (userPref) {
-                let check = userPref === 'dark' ? 'dark' : 'light';
-                setMode(check)
+                let check: ThemeMode = userPref === 'dark' ? 'dark' : 'light';
+                setMode(check);
                 if (check === 'dark') {
-                    document.documentElement.classList.add("dark")
+                    document.documentElement.classList.add("dark");
                 } else {
-                    document.documentElement.classList.remove("dark")
+                    document.documentElement.classList.remove("dark");
                 }
             } else {
-                let check = mediaQuery.matches ? "dark" : "light";
-                setMode(check)
+                let check: ThemeMode = mediaQuery.matches ? "dark" : "light";
+                setMode(check);
                 if (check === 'dark') {
-                    document.documentElement.classList.add("dark")
+                    document.documentElement.classList.add("dark");
                 } else {
-                    document.documentElement.classList.remove("dark")
+                    document.documentElement.classList.remove("dark");
                 }
             }
-        }
+        };
 
         handleChange();
 
-        mediaQuery.addEventListener("change", handleChange)
-        return () => mediaQuery.removeEventListener("change", handleChange)
-    }, [])
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
 
     useEffect(() => {
         if (mode === "dark") {
             window.localStorage.setItem("theme", "dark");
-            document.documentElement.classList.add("dark")
+            document.documentElement.classList.add("dark");
         }
 
         if (mode === 'light') {
             window.localStorage.setItem("theme", "light");
-            document.documentElement.classList.remove("dark")
+            document.documentElement.classList.remove("dark");
         }
-    }, [mode])
+    }, [mode]);
 
-    return (
-        [mode, setMode]
-    )
+    return [mode, setMode];
 }

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 const MotionLink = motion(Link);
 
-export const Logo = () => {
+export default function Logo() {
     return (
         <div className="flex items-center justify-center mt-2">
             <MotionLink
@@ -18,7 +18,7 @@ export const Logo = () => {
                     }
                 }}
             >
-                CB
+                MK
             </MotionLink>
         </div>
     );
