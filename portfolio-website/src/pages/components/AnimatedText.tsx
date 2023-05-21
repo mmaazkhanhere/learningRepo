@@ -29,12 +29,14 @@ const singleWord = {
 }
 
 interface AnimatedTextType {
-    text: string;
+    text?: string;
     className?: string;
 }
 
 export default function AnimatedText({ text, className = "" }: AnimatedTextType) {
-    console.log(text.split(' '))
+    if (!text) {
+        return null;
+    }
     return (
         <div className='w-full mx-auto py-2 flex items-center justify-center text-center overflow-hidden sm:py-0'>
             <motion.h1 className={`inline-block w-full text-dark font-bold capitalize text-6xl font-montserrat dark:text-light  
