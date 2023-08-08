@@ -1,23 +1,20 @@
-import { NextResponse, NextRequest } from "next/server";
-import { SignJWT } from 'jose'
+import { SignJWT } from "jose";
+import { NextResponse } from "next/server";
 import { getJwtSecretKey } from "@/app/lib/auth";
 
-export const POST = async (request: NextRequest) => {
+export async function POST(request: any) {
+    const body = await request.json();
 
-    const req = await request.json();
-
-    if (req.username === 'admin' && req.password === 'admin') {
-
+    // Make that below if condition as your own backend api call to validate user
+    if (body.username === "admin" && body.password === "admin") {
         const token = await new SignJWT({
-            username: req.username,
-            role: 'admin'
+            username: body.username,
+            role: "admin", // Set your own roles
         })
             .setProtectedHeader({ alg: "HS256" })
             .setIssuedAt()
-            .setExpirationTime('60s')
+            .setExpirationTime("30s") // Set your own expiration time
             .sign(getJwtSecretKey());
-
-        console.log(token);
 
         const response = NextResponse.json(
             { success: true },
@@ -25,14 +22,13 @@ export const POST = async (request: NextRequest) => {
         );
 
         response.cookies.set({
-            name: 'token',
+            name: "token",
             value: token,
-            path: '/'
+            path: "/",
         });
-
-        console.log(response.cookies)
 
         return response;
     }
-    return NextResponse.json({ success: false })
+
+    return NextResponse.json({ success: false });
 }
