@@ -12,15 +12,19 @@ export async function Header() {
         </div>
         <div className="text-2xl">
           {auth ? (
-            <Link href="/panel">Panel (Protected Route)</Link>
+            <Link href="/wallet">Create Wallet</Link>
           ) : (
-            <Link href="/login">Login</Link>
+            <div className="flex items-center justify-center gap-10">
+              <Link href="/login">Login</Link>
+              <Link href="/register">Register</Link>
+            </div>
           )}
         </div>
       </nav>
 
     </section>
   );
+
 }
 
 export default Header;

@@ -23,4 +23,4 @@ export async function middleware(request: any) {
     return NextResponse.next();
 }
 
-export const config = { matcher: ["/login", "/register", "/panel", "/panel/:path*"] };
+export const config = { matcher: ["/login", "/register", "/wallet"] };
