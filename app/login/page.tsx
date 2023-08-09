@@ -1,39 +1,40 @@
 "use client"
 
-import React, { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 type Props = {}
 type Process = 'Sign In' | 'Sign Up'
 
-const Home = (props: Props) => {
-
-    const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("")
+const Home = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const router = useRouter();
     const searchParams = useSearchParams();
 
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-
         event.preventDefault();
 
         const res = await fetch("/api/login", {
             method: "POST",
             body: JSON.stringify({ username, password }),
         });
+
         const { success } = await res.json();
 
         if (success) {
             const nextUrl = searchParams.get("next");
-            router.push(nextUrl ?? '/')
+            router.push(nextUrl ?? '/');
             router.refresh();
         } else {
-            alert("Login Failed")
+            const nextUrl = searchParams.get("next");
+            router.push(nextUrl ?? '/register');
+            router.refresh();
         }
-    }
+    };
+
 
     return (
         <main className='w-full h-screen flex items-center justify-center'>
@@ -61,10 +62,12 @@ const Home = (props: Props) => {
                         />
                         <button
                             type='submit'
-                            className='px-6 py-2 bg-blue-400 rounded-md mt-6'>
+                            className='px-6 py-2 bg-blue-400 rounded-md mt-6'
+                        >
                             Sign In
                         </button>
                     </form>
+
                 </div>
                 <Link
                     href={'/register'}

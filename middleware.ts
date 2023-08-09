@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJwtToken } from "./app/libs/auth";
 
-const authPages = ["/", "/panel"]; // authentication related pages including /panel
+const authPages = ["/", "/wallet"]; // authentication related pages including /panel
 const isAuthPage = (url: string) => authPages.includes(url);
 /* checks if the page requires authentication 
 returns true if it requires authentication */

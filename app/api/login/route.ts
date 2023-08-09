@@ -6,54 +6,56 @@ export const POST = async (request: NextRequest) => {
 
     const body = await request.json();
     const signInUsername = body.username;
-    const singInPassword = body.password;
-
-    console.log(singInPassword, signInUsername)
+    const signInPassword = body.password;
 
     try {
 
         const { value: username } = request.cookies.get("username") ?? { value: null };
         const { value: password } = request.cookies.get("password") ?? { value: null };
         const { value: token } = request.cookies.get("token") ?? { value: null };
-        const { value: address } = request.cookies.get("token") ?? { value: null };
+        const { value: address } = request.cookies.get("address") ?? { value: null };
 
-        const tokenVerified = token && verifyJwtToken(token);
+        if (!username || !password) {
+            const registerUrl = new URL("/register", request.nextUrl.origin);
+            return NextResponse.redirect(registerUrl.href);
+        }
+        else {
+            const tokenVerified = token && verifyJwtToken(token);
 
-        console.log(username, password, token);
+            if (username === signInUsername && password === signInPassword) {
 
-        if (username === signInUsername && password === singInPassword) {
+                if (tokenVerified) {
+                    // Token verified, user is already authenticated
+                    const response = NextResponse.json(
+                        { success: true },
+                        { status: 200, headers: { "content-type": "application/json" } }
+                    );
+                    return response;
+                }
 
-            if (tokenVerified) {
-                // Token verified, user is already authenticated
+                // Token not verified, generate and set a new token
+                const token = await new SignJWT({
+                    address: address,
+                    role: 'admin'
+                })
+                    .setProtectedHeader({ alg: "HS256", typ: 'JWT' })
+                    .setIssuedAt()
+                    .setExpirationTime("300s")
+                    .sign(getJwtSecretKey());
+
                 const response = NextResponse.json(
                     { success: true },
                     { status: 200, headers: { "content-type": "application/json" } }
                 );
+
+                response.cookies.set({
+                    name: "token", value: token, path: "/"
+                });
+
                 return response;
             }
 
-            // Token not verified, generate and set a new token
-            const token = await new SignJWT({
-                address: address,
-                role: 'admin'
-            })
-                .setProtectedHeader({ alg: "HS256", typ: 'JWT' })
-                .setIssuedAt()
-                .setExpirationTime("300s")
-                .sign(getJwtSecretKey());
-
-            const response = NextResponse.json(
-                { success: true },
-                { status: 200, headers: { "content-type": "application/json" } }
-            );
-
-            response.cookies.set({
-                name: "token", value: token, path: "/"
-            });
-
-            return response;
         }
-
 
     } catch (error) {
         console.error("Error creating token:", error);
