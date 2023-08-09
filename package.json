@@ -13,6 +13,9 @@
     "@types/node": "20.4.8",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
+    "@web3auth/base": "^6.1.7",
+    "@web3auth/modal": "^6.1.7",
+    "@web3auth/no-modal": "^6.1.7",
     "@zerodevapp/sdk": "^3.2.3",
     "@zerodevapp/web3auth": "^3.2.2",
     "autoprefixer": "10.4.14",
@@ -20,6 +23,7 @@
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "ethers": "^5.7.2",
+    "fs": "^0.0.1-security",
     "jose": "^4.14.4",
     "keccak256": "^1.0.6",
     "next": "13.4.12",
@@ -35,5 +39,9 @@
   "main": "next.config.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "process": "^0.11.10"
+  }
 }

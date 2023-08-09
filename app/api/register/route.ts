@@ -1,6 +1,7 @@
 
 import { NextResponse, NextRequest } from "next/server";
 import { SignJWT } from 'jose'
+import { generateKeyPair } from "jose";
 import { getJwtSecretKey } from "@/app/libs/auth";
 import { generateWalletAddress } from "@/app/libs/walletAddress";
 
@@ -10,6 +11,10 @@ export const POST = async (request: NextRequest) => {
     const body = await request.json()
     const userId = body.userId;
     const password = body.password;
+
+    // const { publicKey, privateKey } = await generateKeyPair('PS256')
+    // console.log(publicKey)
+    // console.log(privateKey)
 
     try {
         const address = generateWalletAddress(userId);
@@ -27,6 +32,7 @@ export const POST = async (request: NextRequest) => {
             { success: true },
             { status: 200, headers: { "content-type": "application/json" } }
         );
+
 
         response.cookies.set({
             name: "token", value: token, path: "/"
