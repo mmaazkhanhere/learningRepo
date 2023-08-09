@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { SignJWT } from 'jose'
-import { getJWTSecretKey } from "@/app/libs/auth";
+import { getJwtSecretKey } from "@/app/libs/auth";
 
 export const POST = async (request: NextRequest) => {
 
@@ -8,27 +8,34 @@ export const POST = async (request: NextRequest) => {
     const username = body.username;
     const password = body.password;
 
-    if (username === 'maaz' && password === "maaz") {
-        const token = await new SignJWT({
-            username: username,
-            role: 'admin'
-        })
-            .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime("60s")
-            .sign(getJWTSecretKey())
+    console.log(password, username)
 
-        const response = NextResponse.json(
-            { success: true },
-            { status: 200, headers: { 'content-type': 'application/json' } }
-        );
+    try {
+        if (username === 'maaz' && password === "maaz") {
+            const token = await new SignJWT({
+                username: username,
+                role: 'admin'
+            })
+                .setProtectedHeader({ alg: "HS256", typ: 'JWT' })
+                .setIssuedAt()
+                .setExpirationTime("30s")
+                .sign(getJwtSecretKey());
 
-        response.cookies.set({
-            name: 'token',
-            value: token,
-            path: "/"
-        })
+            const response = NextResponse.json(
+                { success: true },
+                { status: 200, headers: { "content-type": "application/json" } }
+            );
 
-        return response;
+            response.cookies.set({
+                name: "token",
+                value: token,
+                path: "/",
+            });
+
+            return response;
+        }
+    } catch (error) {
+        console.error("Error creating token:", error);
+        return NextResponse.json({ success: false });
     }
 }

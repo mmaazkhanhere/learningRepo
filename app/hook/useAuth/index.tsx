@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie"
 import { verifyJwtToken } from "@/app/libs/auth"
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { JWTPayload } from "jose";
 
 const fromServer = async () => {
@@ -9,10 +9,12 @@ const fromServer = async () => {
     const { value: token } = cookieList.get("token") ?? { value: null };
 
     const verifiedToken = await verifyJwtToken(token);
+
+    return verifiedToken
 }
 
 export function useAuth() {
-    const [auth, setAuth] = useState<JWTPayload | null>(null);
+    const [auth, setAuth] = React.useState<JWTPayload | null>(null);
 
     const getVerifiedToken = async () => {
         const cookies = new Cookies();
@@ -21,7 +23,7 @@ export function useAuth() {
         setAuth(verifiedToken);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         getVerifiedToken();
     }, [])
 

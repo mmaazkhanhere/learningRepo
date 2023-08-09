@@ -1,18 +1,18 @@
-import { jwtVerify } from "jose"
+import { jwtVerify } from "jose";
 
-export const getJWTSecretKey = () => {
-    const secret = process.env.NEXT_PUBLIC_SECRET_KEY;
+export function getJwtSecretKey() {
+    const secret = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
 
     if (!secret) {
-        throw new Error("Wrong secret key")
+        throw new Error("JWT Secret key is not matched");
     }
 
-    return new TextEncoder().encode(secret)
+    return new TextEncoder().encode(secret);
 }
 
-export const verifyJwtToken = async (token: string) => {
+export async function verifyJwtToken(token: string) {
     try {
-        const { payload } = await jwtVerify(token, getJWTSecretKey());
+        const { payload } = await jwtVerify(token, getJwtSecretKey());
 
         return payload;
     } catch (error) {

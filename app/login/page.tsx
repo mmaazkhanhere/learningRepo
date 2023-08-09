@@ -2,43 +2,29 @@
 
 import React, { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 type Props = {}
 type Process = 'Sign In' | 'Sign Up'
 
 const Home = (props: Props) => {
 
-    const [process, setProcess] = useState<Process>("Sign In")
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("")
 
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const toggleProcess = () => {
-        if (process === 'Sign In') {
-            setProcess('Sign Up')
-        }
-        if (process === 'Sign Up') {
-            setProcess('Sign In')
-        }
-    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
         event.preventDefault();
 
-        console.log("Username: ", username)
-        console.log("Password: -", password)
-
         const res = await fetch("/api/login", {
             method: "POST",
-            body: JSON.stringify({
-                username,
-                password
-            })
+            body: JSON.stringify({ username, password }),
         });
-        const success = await res.json();
+        const { success } = await res.json();
 
         if (success) {
             const nextUrl = searchParams.get("next");
@@ -56,68 +42,36 @@ const Home = (props: Props) => {
                     Logo
                 </h1>
                 <div>
-                    {
-                        process === 'Sign In' &&
-                        <form className='flex flex-col p-6' onSubmit={handleSubmit}>
-                            <label htmlFor="username" className='text-lg'>Username</label>
-                            <input
-                                type='text'
-                                placeholder='Enter your username'
-                                className='border-none px-2 py-2 rounded-md mt-2'
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <label htmlFor="password" className='text-lg mt-6'>Password</label>
-                            <input
-                                type='password'
-                                placeholder='password'
-                                className='border-none px-2 py-2 rounded-md mt-2'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <button
-                                type='submit'
-                                className='px-6 py-2 bg-blue-400 rounded-md mt-6'>
-                                Sign In
-                            </button>
-                        </form>
-                    }
-                    {
-                        process === 'Sign Up' &&
-                        <form className='flex flex-col p-6'>
-                            <label htmlFor="username" className='text-lg'>Username</label>
-                            <input
-                                type='text'
-                                placeholder='Enter a username'
-                                className='border-none px-2 py-2 rounded-md mt-2'
-                            />
-                            <label htmlFor="email" className='text-lg mt-6'>Email Address</label>
-                            <input
-                                type='email'
-                                placeholder='example@mail.com'
-                                className='border-none px-2 py-2 rounded-md mt-2'
-                            />
-                            <label htmlFor="" className='text-lg mt-6'>Password</label>
-                            <input
-                                type='password'
-                                placeholder='password'
-                                className='border-none px-2 py-2 rounded-md mt-2'
-                            />
-                            <button
-                                type='submit'
-                                className='px-6 py-2 bg-blue-400 rounded-md mt-6'>
-                                Sign Up
-                            </button>
-                        </form>
-                    }
+                    <form className='flex flex-col p-6' onSubmit={handleSubmit}>
+                        <label htmlFor="username" className='text-lg'>Username</label>
+                        <input
+                            type='text'
+                            placeholder='Enter your username'
+                            className='border-none px-2 py-2 rounded-md mt-2'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <label htmlFor="password" className='text-lg mt-6'>Password</label>
+                        <input
+                            type='password'
+                            placeholder='password'
+                            className='border-none px-2 py-2 rounded-md mt-2'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button
+                            type='submit'
+                            className='px-6 py-2 bg-blue-400 rounded-md mt-6'>
+                            Sign In
+                        </button>
+                    </form>
                 </div>
-                <button
-                    onClick={toggleProcess}
-                    className='underline text-sm decoration-blue-500 mt-2 ml-20 mb-2'>
-                    {
-                        process === 'Sign In' ? "New user?" : 'Already a user?'
-                    }
-                </button>
+                <Link
+                    href={'/register'}
+                    className='underline text-sm decoration-blue-500 mt-2 ml-20 mb-2'
+                >
+                    New user?
+                </Link>
             </div>
         </main>
     )
