@@ -1,34 +1,34 @@
-import { SignJWT } from "jose";
-import { NextResponse } from "next/server";
-import { getJwtSecretKey } from "@/app/lib/auth";
+import { NextResponse, NextRequest } from "next/server";
+import { SignJWT } from 'jose'
+import { getJWTSecretKey } from "@/app/libs/auth";
 
-export async function POST(request: any) {
+export const POST = async (request: NextRequest) => {
+
     const body = await request.json();
+    const username = body.username;
+    const password = body.password;
 
-    // Make that below if condition as your own backend api call to validate user
-    if (body.username === "admin" && body.password === "admin") {
+    if (username === 'maaz' && password === "maaz") {
         const token = await new SignJWT({
-            username: body.username,
-            role: "admin", // Set your own roles
+            username: username,
+            role: 'admin'
         })
-            .setProtectedHeader({ alg: "HS256" })
+            .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
-            .setExpirationTime("30s") // Set your own expiration time
-            .sign(getJwtSecretKey());
+            .setExpirationTime("60s")
+            .sign(getJWTSecretKey())
 
         const response = NextResponse.json(
             { success: true },
-            { status: 200, headers: { "content-type": "application/json" } }
+            { status: 200, headers: { 'content-type': 'application/json' } }
         );
 
         response.cookies.set({
-            name: "token",
+            name: 'token',
             value: token,
-            path: "/",
-        });
+            path: "/"
+        })
 
         return response;
     }
-
-    return NextResponse.json({ success: false });
 }

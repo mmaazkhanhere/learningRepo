@@ -1,3 +1,11 @@
-export default function Home() {
-  return <h1 className="text-xl ">Homepage</h1>;
+import React from 'react'
+
+type Props = {}
+
+const Home = (props: Props) => {
+  return (
+    <div>Home</div>
+  )
 }
+
+export default Home
