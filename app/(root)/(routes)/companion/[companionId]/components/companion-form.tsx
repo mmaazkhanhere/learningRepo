@@ -80,7 +80,7 @@ const CompanionForm = ({ categories, initialData }: CompanionFormProps) => {
         try {
             if (initialData) {
                 //update companion fuctionality
-                await axios.patch(`/api/companion/${initialData}`, values);
+                await axios.patch(`/api/companion/${initialData.id}`, values);
             }
             else {
                 //create companion functionality
