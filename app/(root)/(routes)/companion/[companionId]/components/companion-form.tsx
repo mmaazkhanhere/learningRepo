@@ -4,6 +4,7 @@ import { Category, Companion } from '@prisma/client'
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 
 import * as z from "zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -13,7 +14,10 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+
 import { Wand2 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface CompanionFormProps {
     initialData: Companion | null;
@@ -56,6 +60,9 @@ Cristiano: * grinning * Everyone has their own pitch and goals.Just find yours a
 
 const CompanionForm = ({ categories, initialData }: CompanionFormProps) => {
 
+    const { toast } = useToast();
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema), defaultValues: initialData || {
             name: "",
@@ -70,7 +77,26 @@ const CompanionForm = ({ categories, initialData }: CompanionFormProps) => {
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+            if (initialData) {
+                //update companion fuctionality
+                await axios.patch(`/api/companion/${initialData}`, values);
+            }
+            else {
+                //create companion functionality
+                await axios.post("/api/companion", values);
+            }
+            toast({
+                description: 'success'
+            });
+            router.refresh();
+            router.push("/");
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                description: "Something went wrong"
+            });
+        }
     }
     return (
         <div className='h-full p-4 space-y-2 max-w-3xl mx-auto'>
