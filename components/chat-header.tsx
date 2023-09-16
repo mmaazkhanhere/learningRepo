@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Companion, Message } from "@prisma/client"
 import { ChevronLeft, Edit, MessageSquare, MoreVertical, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import BotAvatar from "./bot-avatar";
 import { useUser } from "@clerk/nextjs";
 import { DropdownMenuTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
+import BotAvatar from "@/components/bot-avatar";
 
 interface ChatHeaderProps {
     companion: Companion & {
