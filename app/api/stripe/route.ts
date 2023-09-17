@@ -9,28 +9,27 @@ const settingsUrl = absoluteUrl("/settings");
 
 export async function GET() {
     try {
-
         const { userId } = auth();
         const user = await currentUser();
 
         if (!userId || !user) {
-            return new NextResponse("Unauthorised", { status: 401 });
+            return new NextResponse("Unauthorized", { status: 401 });
         }
 
         const userSubscription = await prismadb.userSubscription.findUnique({
             where: {
                 userId
             }
-        });
+        })
 
         if (userSubscription && userSubscription.stripeCustomerId) {
             const stripeSession = await stripe.billingPortal.sessions.create({
                 customer: userSubscription.stripeCustomerId,
-                return_url: settingsUrl
-            });
+                return_url: settingsUrl,
+            })
 
-            return new NextResponse(JSON.stringify({ url: stripeSession.url }));
-        };
+            return new NextResponse(JSON.stringify({ url: stripeSession.url }))
+        }
 
         const stripeSession = await stripe.checkout.sessions.create({
             success_url: settingsUrl,
@@ -44,8 +43,8 @@ export async function GET() {
                     price_data: {
                         currency: "USD",
                         product_data: {
-                            name: "Companion PRO",
-                            description: "Create Custom AI Companions",
+                            name: "Companion Pro",
+                            description: "Create Custom AI Companions"
                         },
                         unit_amount: 999,
                         recurring: {
@@ -53,17 +52,16 @@ export async function GET() {
                         }
                     },
                     quantity: 1,
-                }
+                },
             ],
             metadata: {
-                userId
-            }
-        });
+                userId,
+            },
+        })
 
-        return new NextResponse(JSON.stringify({ url: stripeSession.url }));
-
+        return new NextResponse(JSON.stringify({ url: stripeSession.url }))
     } catch (error) {
-        console.log("[STRIPE_GET]", error);
-        return new NextResponse("Internal Error", { status: 500 })
+        console.log("[STRIPE]", error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
-}
+};
