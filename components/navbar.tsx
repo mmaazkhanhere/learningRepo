@@ -18,11 +18,11 @@ const font = Poppins({
 
 interface NavbarProps {
     isPro: boolean
-}
+} //interface for Navbar
 
 const Navbar = ({ isPro }: NavbarProps) => {
 
-    const proModal = useProModal();
+    const proModal = useProModal(); //custom hook to handle the Pro version
 
     return (
         <div className="fixed w-full z-50 flex justify-between
@@ -40,6 +40,7 @@ const Navbar = ({ isPro }: NavbarProps) => {
             </div>
             <div className="flex items-center gap-x-3">
                 {
+                    //displayed only if the user is not a Pro user
                     !isPro && (
                         <Button
                             variant={'premium'}
@@ -51,8 +52,8 @@ const Navbar = ({ isPro }: NavbarProps) => {
                         </Button>
                     )
                 }
-                <ModeToggle />
-                <UserButton afterSignOutUrl="/" />
+                <ModeToggle /> {/*Component to toggle theme */}
+                <UserButton afterSignOutUrl="/" /> {/*Component from Clerk to handle user account details */}
             </div>
         </div>
     );

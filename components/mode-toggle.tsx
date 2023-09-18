@@ -1,3 +1,7 @@
+/*the ModeToggle component provides a user-friendly way to toggle between different 
+themes (light, dark, and system) in a web application. It uses the "next-themes" 
+package to control and manage theme changes */
+
 "use client"
 
 import * as React from "react"

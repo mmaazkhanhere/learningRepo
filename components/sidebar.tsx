@@ -1,3 +1,7 @@
+/*Sidebar component renders a dynamic sidebar menu with navigation items. 
+It handles conditional navigation based on whether a route requires a "pro" 
+subscription and provides visual feedback to the user as they interact with the menu. */
+
 "use client";
 
 import { Home, Plus, Settings } from "lucide-react";
@@ -14,14 +18,15 @@ export const Sidebar = ({ isPro }: SideBarProps) => {
 
     const pathname = usePathname();
     const router = useRouter();
-    const proModal = useProModal();
+    const proModal = useProModal(); //custom hook to handle modal dialog for Pro feature
 
     const routes = [
+        //array of route objects
         {
-            icon: Home,
-            href: '/',
-            label: "Home",
-            pro: false,
+            icon: Home, //icon for the route
+            href: '/', //url for the route
+            label: "Home", //name for the route
+            pro: false, //whether it requires a pro subscription
         },
         {
             icon: Plus,
@@ -38,9 +43,12 @@ export const Sidebar = ({ isPro }: SideBarProps) => {
     ];
 
     const onNavigate = (url: string, pro: boolean) => {
+        //hanlde navigation when a sidebar link is clicked. Takes a URL and PRO parameter
         if (pro && !isPro) {
+            //if the link is marked is pro and the user is not a Pro user, it appears to open the Pro modal dialog
             return proModal.onOpen();
         }
+        //if link is not pro or the user is a Pro user, it navigates to the specified url
         return router.push(url);
     }
 
