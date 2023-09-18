@@ -1,3 +1,7 @@
+/* the Companions component is responsible for rendering a grid of companion cards, 
+each representing a companion with information such as name, description, 
+profile picture, and message count. */
+
 import { Companion } from "@prisma/client"
 import Image from "next/image";
 import { Card, CardFooter, CardHeader } from "./ui/card";
@@ -5,8 +9,9 @@ import Link from "next/link";
 import { MessagesSquare } from "lucide-react";
 
 interface CompanionProps {
-    data: (Companion & {
-        _count: {
+    /*An array of objects that represent companions */
+    data: (Companion & { //each object has companion information as well as
+        _count: { //number of message associated with that companion
             messages: number
         }
     })[];
@@ -15,6 +20,7 @@ interface CompanionProps {
 export const Companions = ({ data }: CompanionProps) => {
 
     if (data.length === 0) {
+        /*If no companion are created the following code will run */
         return (
             <div className="pt-10 flex flex-col items-center justify-center
             space-y-3">

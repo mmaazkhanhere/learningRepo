@@ -1,3 +1,6 @@
+/*the ChatHeader component renders the header of a chat page, including companion information, 
+navigation options, and actions like editing and deleting the companion.  */
+
 "use client"
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +14,7 @@ import axios from "axios";
 import BotAvatar from "@/components/bot-avatar";
 
 interface ChatHeaderProps {
-    companion: Companion & {
+    companion: Companion & { //companion is an object prop that represents a companion including message and total messages
         messages: Message[];
         _count: {
             messages: number;
@@ -26,7 +29,9 @@ export const ChatHeader = ({ companion }: ChatHeaderProps) => {
     const { toast } = useToast();
 
     const onDelete = async () => {
+        //function that runs when clicked on delete icon
         try {
+            //sends a DELETE http request at the end point
             await axios.delete(`/api/companion/${companion.id}`);
             toast({
                 description: 'Success'
@@ -34,6 +39,7 @@ export const ChatHeader = ({ companion }: ChatHeaderProps) => {
             router.refresh();
             router.push("/");
         } catch (error) {
+            //toast runs when error
             toast({
                 description: "Something went wrong",
                 variant: "destructive"
