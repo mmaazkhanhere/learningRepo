@@ -2,41 +2,52 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
+  //defines  a primsa client generator, which will generate a javascript prisma client for the application
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"] //specifies preview features
 }
 
+//fullTextSearch enables support for full-text search capabilities which allow user to perform
+//complex text-based searches on text field
+
+//full-text indexes imporve the performance of full-text search queries
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  //this defines the database connections
+  provider = "postgresql" //specifies that the data source is PostgreSQL database
+  url      = env("DATABASE_URL") //usess the connection URL specified in the env variable
   //relationMode="prisma"
 }
 
 model Category {
-  id         String      @id @default(uuid())
-  name       String
-  companions Companion[]
+  id         String      @id @default(uuid()) //a unqiue identifer for he cateogry having default value of uuid
+  name       String //name of the category
+  companions Companion[] //each category can have multiple companions associated with it
 }
 
 model Companion {
-  id           String @id @default(uuid())
-  userId       String
-  userName     String
-  src          String
-  name         String @db.Text
-  description  String
-  instructions String @db.Text
-  seed         String @db.Text
+  id           String @id @default(uuid()) //unique identifier for bot
+  userId       String //userId associated with the companion
+  userName     String //the name of the user who created it
+  src          String //a source field for the image of the bot
+  name         String @db.Text //name of the companion. THe field should be mapped to a database column with a text data type
+  description  String //description of the companion
+  instructions String @db.Text //instructions that is to be give to the companion
+  seed         String @db.Text //a seed field
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) //when was the companon created with default value of now
+  updatedAt DateTime @updatedAt //when was the companion updated?
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category Category @relation(fields: [categoryId], references: [id]) //each companion belongs to one category
+  //It indicates that each companion instance have a category field that is linked to a Category instance based on 
+  //values of the categoryId field in Companion and the id field in category
 
-  messages Message[]
+  categoryId String //the id of the category to whihc the companion belongs
 
-  @@index([categoryId])
+  messages Message[] //each companion can have multiple associated messages.
+  //database queries
+
+  @@index([categoryId]) //defines a database index on the categoryId field of the companion model which helps optimize
 }
 
 enum Role {
@@ -45,25 +56,28 @@ enum Role {
 }
 
 model Message {
-  id        String   @id @default(uuid())
-  role      Role
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id        String   @id @default(uuid()) //a unique id for the message
+  role      Role //role of the message
+  content   String   @db.Text //content of the message which is text
+  createdAt DateTime @default(now()) //when the message was created at
+  updateAt  DateTime @updatedAt //when the message was updated
 
-  companionId String
-  userId      String
+  companionId String //the id of the companion to which the message belongs
+  userId      String //Id of the user associated with the message
 
   companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+  //message can belong to one companion
 
   @@index([companionId])
 }
 
 model UserSubscription {
-  id                     String    @id @default(uuid())
-  userId                 String    @unique
-  stripeCustomerId       String?   @unique @map(name: "strpe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @unique @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @unique @map(name: "stripe_current_period_end")
+  id                     String    @id @default(uuid()) //id of the subscription
+  userId                 String    @unique //id of the user to whom subscription is associated
+  stripeCustomerId       String?   @unique @map(name: "strpe_customer_id") //a stripe customer id which is optional
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id") //stripe subscription id
+  stripePriceId          String?   @unique @map(name: "stripe_price_id") //stripe price id
+  stripeCurrentPeriodEnd DateTime? @unique @map(name: "stripe_current_period_end") //a time-stamp indicating the end of the 
+  //current subscription
 }

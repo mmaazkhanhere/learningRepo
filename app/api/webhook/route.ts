@@ -1,5 +1,4 @@
 import Stripe from "stripe"
-import { headers } from "next/headers"
 import { NextResponse } from "next/server"
 
 import prismadb from "@/lib/prismadb"
@@ -7,7 +6,17 @@ import { stripe } from "@/lib/stripe"
 
 export async function POST(req: Request) {
     const body = await req.text()
-    const signature = req.headers.get("Stripe-Signature") as string
+
+    async function getSignature() {
+        const signature = req.headers.get("Stripe-Signature") as string;
+        return new Promise<string>((resolve) =>
+            setTimeout(() => {
+                resolve(signature);
+            }, 1000)
+        );
+    }
+
+    const signature = await getSignature();
 
     let event: Stripe.Event
 
