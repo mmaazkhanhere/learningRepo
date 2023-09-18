@@ -6,7 +6,7 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const ProModal = () => {
@@ -14,6 +14,11 @@ export const ProModal = () => {
     const proModal = useProModal();
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const onSubscribe = async () => {
         try {
@@ -28,6 +33,10 @@ export const ProModal = () => {
                 description: "Something went wrong"
             })
         }
+    }
+
+    if (!isMounted) {
+        return null;
     }
 
     return (
@@ -47,7 +56,7 @@ export const ProModal = () => {
                         9
                         <span className="text-sm font-normal">.99 / month</span>
                     </p>
-                    <Button variant={"premium"} onClick={onSubscribe}>
+                    <Button disabled={loading} variant={"premium"} onClick={onSubscribe}>
                         Subscribe
                     </Button>
                 </div>

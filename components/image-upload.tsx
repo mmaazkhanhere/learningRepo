@@ -35,8 +35,11 @@ export const ImageUpload = ({ value, onChange, disabled }: ImageUploadProps) => 
                 hover:opacity-75 transition flex flex-col space-y-2 items-center justify-center"
                 >
                     <div className="relative h-40 w-40">
-                        <Image fill alt="Upload" src={value || "/placeholder.jpg "}
-                            className="rouned-lg object-cover"
+                        <Image
+                            fill
+                            alt="Upload"
+                            src={value || "/placeholder.svg"}
+                            className="rounded-lg object-cover"
                         />
                     </div>
                 </div>
