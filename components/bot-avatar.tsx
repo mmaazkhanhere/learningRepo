@@ -1,3 +1,5 @@
+/*A component that creates avatar for the chatbot */
+
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import React from 'react'
 
