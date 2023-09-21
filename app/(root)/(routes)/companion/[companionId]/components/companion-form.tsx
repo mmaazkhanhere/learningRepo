@@ -20,11 +20,12 @@ import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface CompanionFormProps {
-    initialData: Companion | null;
-    categories: Category[];
+    initialData: Companion | null; //initial data of the companion
+    categories: Category[]; //array of category
 }
 
-const formSchema = z.object({
+const formSchema = z.object({ /*A validation schema which includes rules for validating various form fields like
+name, description, instructions, seed, src, and categoryId*/
     name: z.string().min(1, {
         message: 'Name is required.',
     }),
@@ -60,11 +61,14 @@ Cristiano: * grinning * Everyone has their own pitch and goals.Just find yours a
 
 const CompanionForm = ({ categories, initialData }: CompanionFormProps) => {
 
-    const { toast } = useToast();
+    const { toast } = useToast(); 
     const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
+        /*Initialises a form instance using the useForm hook. Type is defined using z.infer utility to extract
+        the type that corresponds to the formSchema*/
         resolver: zodResolver(formSchema), defaultValues: initialData || {
+            //configures the form to use 'zodResolver' for validation. Default values for the form field is set to inital data of companion
             name: "",
             description: "",
             instructions: "",
@@ -74,25 +78,28 @@ const CompanionForm = ({ categories, initialData }: CompanionFormProps) => {
         },
     });
 
-    const isLoading = form.formState.isSubmitting;
+    const isLoading = form.formState.isSubmitting; // a boolean variable that determines if the form is currently submitting
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        //function that executes when form submitted
         try {
             if (initialData) {
-                //update companion fuctionality
+                //If inital data is present, update companion fuctionality
                 await axios.patch(`/api/companion/${initialData.id}`, values);
             }
             else {
-                //create companion functionality
+                //If inital data is not present, create companion functionality
                 await axios.post("/api/companion", values);
             }
             toast({
+                //give success toast if companion updated or created
                 description: 'success'
             });
             router.refresh();
             router.push("/");
         } catch (error) {
             toast({
+                //give error toast if error in the process
                 variant: "destructive",
                 description: "Something went wrong"
             });
