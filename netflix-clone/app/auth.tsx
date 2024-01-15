@@ -28,12 +28,16 @@ export async function getServerSideProps(context: NextPageContext) {
 const Auth = () => {
     const router = useRouter();
 
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');// state variable for email with initial value set to ''
+    const [name, setName] = useState(''); //state variable for name with initial value set to ''
+    const [password, setPassword] = useState(''); // state variable for password with initial value set to ''
 
-    const [variant, setVariant] = useState('login');
+    const [variant, setVariant] = useState('login'); // state variable for variant with initial value set to 'login'
 
+    /* The `toggleVariant` function is a callback function that is used to toggle
+    between the 'login' and 'register' variants. It is created using the
+    `useCallback` hook, which memoizes the function so that it is only recreated
+    if its dependencies change. */
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
     }, []);
@@ -117,7 +121,7 @@ const Auth = () => {
                         centers the child elements horizontally within the div. 
                         */
                     }
-                    < div
+                    <div
                         className="bg-black bg-opacity-70 px-16 py-16 self-center 
                         mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full"
                     >
@@ -148,6 +152,7 @@ const Auth = () => {
                                 will appear */
                             }
                         </h2>
+
                         <div className="flex flex-col gap-4">
                             {
                                 /* The `<div className="flex flex-col gap-4">` is applying
@@ -160,6 +165,10 @@ const Auth = () => {
                                 each child element. */
                             }
                             {
+                                /*if user is registering themselves, this input field for
+                                username will appear. While signing in, this input field 
+                                will not be displayed*/
+
                                 variant === 'register' && (
                                     <Input
                                         id="name"
@@ -168,6 +177,10 @@ const Auth = () => {
                                         value={name}
                                         onChange={(e: any) => setName(e.target.value)}
                                     />
+                                    /* The `<Input>` component is a custom
+                                    component that is being used to render an
+                                    input field. */
+
                                 )}
                             <Input
                                 id="email"
@@ -184,25 +197,84 @@ const Auth = () => {
                                 onChange={(e: any) => setPassword(e.target.value)}
                             />
                         </div>
-                        <button onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
-                            {variant === 'login' ? 'Login' : 'Sign up'}
+
+                        <button
+                            onClick={variant === 'login' ? login : register}
+                            className="bg-red-600 py-3 text-white rounded-md w-full mt-10 
+                            hover:bg-red-700 transition"
+                        >
+                            {
+                                /* The `<button>` element is rendering a button component.
+                                The `onClick` attribute specifies the function to be
+                                executed when the button is clicked. In this case, it
+                                checks the value of the `variant` state variable. If the
+                                `variant` is set to `'login'`, it calls the `login`
+                                function. If the `variant` is set to `'register'`, it
+                                calls the `register` function. */
+                            }
+                            {
+                                variant === 'login' ? 'Login' : 'Sign up'
+                                /*if user is in login page, login will be displayed as button
+                                otherwise sign up will be displayed */
+                            }
                         </button>
+
                         <div className="flex flex-row items-center gap-4 mt-8 justify-center">
-                            <div onClick={() => signIn('google', { callbackUrl: '/profiles' })} className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition">
+
+                            <div
+                                onClick={() => signIn('google', { callbackUrl: '/profiles' })}
+                                className="w-10 h-10 bg-white rounded-full flex items-center justify-center 
+                                cursor-pointer hover:opacity-80 transition"
+                            >
+                                {
+                                    /* The above code is rendering a `<div>` element with a
+                                    click event handler. When the `<div>` is clicked, it
+                                    calls the `signIn` function with the argument
+                                    `'google'` and an object `{ callbackUrl: '/profiles'
+                                    }`. This code is likely part of a larger React
+                                    component and is used to handle the sign-in
+                                    functionality, specifically for signing in with
+                                    Google. */
+                                }
                                 <FcGoogle size={32} />
                             </div>
-                            <div onClick={() => signIn('github', { callbackUrl: '/profiles' })} className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition">
+
+                            <div
+                                onClick={() => signIn('github', { callbackUrl: '/profiles' })}
+                                className="w-10 h-10 bg-white rounded-full flex items-center justify-center 
+                                cursor-pointer hover:opacity-80 transition"
+                            >
+                                {
+                                    /* The above code is rendering a `<div>` element with a
+                                    click event handler. When the `<div>` is clicked, it
+                                    calls the `signIn` function with the parameters
+                                    `'github'` and `{ callbackUrl: '/profiles' }`. This
+                                    code is likely part of a larger React component and
+                                    is used to handle the sign-in functionality with
+                                    GitHub. */
+                                }
                                 <FaGithub size={32} />
                             </div>
+
                         </div>
+
                         <p className="text-neutral-500 mt-12">
-                            {variant === 'login' ? 'First time using Netflix?' : 'Already have an account?'}
+                            {
+                                variant === 'login' ? 'First time using Netflix?' : 'Already have an account?'
+                                /*If user is in login page, it will be display the first message otherwise
+                                will display 'already have an account' message */
+                            }
                             <span onClick={toggleVariant} className="text-white ml-1 hover:underline cursor-pointer">
                                 {variant === 'login' ? 'Create an account' : 'Login'}
+                                {
+                                    /* The above code is rendering a clickable text element
+                                    that toggles between "Create an account" and "Login"
+                                    based on the value of the `variant` state variable.
+                                    When clicked, it calls the `toggleVariant` function. */
+                                }
                             </span>
-                            .
                         </p>
-                    </>
+                    </div>
                 </div>
             </div>
         </div >
