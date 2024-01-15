@@ -57,6 +57,13 @@ const Auth = () => {
         }
     }, [email, password, router]);
 
+    /* The above code is defining a function called `register` using the
+    `useCallback` hook in a TypeScript React component. This function is an
+    asynchronous function that sends a POST request to the `/api/register`
+    endpoint with the `email`, `name`, and `password` data. If the request is
+    successful, it calls the `login` function. If there is an error, it logs the
+    error to the console. The `register` function depends on the `email`,
+    `name`, `password`, and `login` variables. */
     const register = useCallback(async () => {
         try {
             await axios.post('/api/register', {

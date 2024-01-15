@@ -98,3 +98,5 @@ model Movie {
   genre String //genre of the movie
   duration String //movie duration
 }
+
+//after it, run the command 'npx prisma db push'
