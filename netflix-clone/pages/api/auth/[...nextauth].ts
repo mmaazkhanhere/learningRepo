@@ -5,7 +5,7 @@ import NextAuth, { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
-//import {PrismaAdapter} from '@next-auth/'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { compare } from 'bcrypt'
 import prismadb from '@/lib/prismadb'
 
@@ -90,7 +90,7 @@ export const authOptions: AuthOptions = {
     /*debug option is set based on the environment. When the application is in development,
     debugging mode is enabled*/
 
-    //adapter: PrismaAdapter(prismadb),
+    adapter: PrismaAdapter(prismadb),
     /*adapter configured using PrismaAdapter to connect NextAuth with a prisma database.
     It allows NextAuth to store authentication sessions and data in the database */
 
