@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^5.8.0",
     "@types/bcrypt": "^5.0.2",
     "axios": "^1.6.5",
     "bcrypt": "^5.1.1",
