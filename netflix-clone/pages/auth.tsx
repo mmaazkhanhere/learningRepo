@@ -1,3 +1,5 @@
+"use client"
+
 import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { NextPageContext } from 'next';
@@ -42,6 +44,13 @@ const Auth = () => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
     }, []);
 
+    /* The below code is defining a function called `login` using the `useCallback`
+    hook. This function is an asynchronous function that attempts to sign in a
+    user using the `signIn` function. It passes the user's email and password as
+    credentials and sets the redirect and callback URL options. If the sign-in
+    is successful, it redirects the user to the `/profiles` page using the
+    `router.push` function. If there is an error during the sign-in process, it
+    logs the error to the console. */
     const login = useCallback(async () => {
         try {
             await signIn('credentials', {
@@ -57,7 +66,7 @@ const Auth = () => {
         }
     }, [email, password, router]);
 
-    /* The above code is defining a function called `register` using the
+    /* The below code is defining a function called `register` using the
     `useCallback` hook in a TypeScript React component. This function is an
     asynchronous function that sends a POST request to the `/api/register`
     endpoint with the `email`, `name`, and `password` data. If the request is
