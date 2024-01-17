@@ -67,51 +67,54 @@ const Navbar = () => {
                     <NavbarItem label="My List" />
                     <NavbarItem label="Browse by Languages" />
                 </div>
-                { /*Mobile Menu */}
+                { /*Mobile Menu Icon*/}
                 <div
                     onClick={toggleMobileMenu}
                     className="lg:hidden flex flex-row items-center gap-2 
-                ml-8 cursor-pointer relative"
+                    ml-8 cursor-pointer relative"
                 >
-                    <p className="text-white text-sm">Browse</p>
+                    {/* When click on this div, the mobile menu will be displayed*/}
+                    <p className="text-gray-700 text-sm">Browse</p>
                     <ChevronDownIcon
-                        className={`w-4 text-white fill-white transition 
+                        className={`w-4 text-gray-700 fill-black transition 
                         ${showMobileMenu ? 'rotate-180' : 'rotate-0'}`}
                     />
                     <MobileMenu visible={showMobileMenu} />
+                    {/*Will be visible when showMobileMenu is true*/}
                 </div>
+
 
                 <div className="flex flex-row ml-auto gap-7 items-center">
                     {/*Search Icon */}
                     <div
-                        className="text-gray-200 hover:text-gray-300 
+                        className="text-gray-700 hover:text-black 
                         cursor-pointer transition"
                     >
                         <MagnifyingGlassIcon className="w-6" />
                     </div>
                     {/*Notification Icon */}
                     <div
-                        className="text-gray-200 hover:text-gray-300 
+                        className="text-gray-700 hover:text-black 
                         cursor-pointer transition"
                     >
                         <BellIcon className="w-6" />
                     </div>
-                    {/*Account Section */}
+                    {/*Profile Section */}
                     <div
                         onClick={toggleAccountMenu}
                         className="flex flex-row items-center gap-2 cursor-pointer 
                         relative"
                     >
-                        {/*Account Icon */}
+                        {/*Profile Icon */}
                         <div
                             className="w-6 h-6 lg:w-10 lg:h-10 rounded-md 
-                        overflow-hidden"
+                            overflow-hidden"
                         >
                             <img src="/images/default-blue.png" alt="" />
                         </div>
                         <ChevronDownIcon
-                            className={`w-4 text-white fill-white transition 
-                        ${showAccountMenu ? 'rotate-180' : 'rotate-0'}`}
+                            className={`w-4 text-gray-700 fill-black transition 
+                            ${showAccountMenu ? 'rotate-180' : 'rotate-0'}`}
                         />
                         <AccountMenu visible={showAccountMenu} />
                     </div>
