@@ -49,4 +49,6 @@ const Watch = () => {
     )
 }
 
+//install zustand library using npm install zustand
+
 export default Watch;

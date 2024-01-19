@@ -7,11 +7,11 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 import PlayButton from '@/components/PlayButton';
 import useBillboard from '@/hooks/useBillboard';
-//import useInfoModalStore from '@/hooks/useInfoModalStore';
+import useInfoModalStore from '@/hooks/useInfoModalStore';
 
 const Billboard: React.FC = () => {
 
-    //const { openModal } = useInfoModalStore();
+    const { openModal } = useInfoModalStore();
     const { data } = useBillboard();/*fetches data about the current billboard
     from an endpoint */
 
