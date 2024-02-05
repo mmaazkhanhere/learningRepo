@@ -3,23 +3,20 @@ import { FaFeather } from "react-icons/fa";
 import { useRouter } from "next/router";
 
 import useLoginModal from "@/hooks/useLoginModal";
-
-//import useCurrentUser from "@/hooks/useCurrentUser";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 const SidebarTweetButton = () => {
-
     const router = useRouter();
     const loginModal = useLoginModal();
-
-    //const { data: currentUser } = useCurrentUser();
+    const { data: currentUser } = useCurrentUser();
 
     const onClick = useCallback(() => {
-        // if (!currentUser) {
-        //     return loginModal.onOpen();
-        // }
+        if (!currentUser) {
+            return loginModal.onOpen();
+        }
 
         router.push('/');
-    }, [])//, [loginModal, router, currentUser]);
+    }, [loginModal, router, currentUser]);
 
     return (
         <div onClick={onClick}>
@@ -38,11 +35,8 @@ const SidebarTweetButton = () => {
                 transition 
                 cursor-pointer
             ">
-                {/*Mobile Design */}
                 <FaFeather size={24} color="white" />
             </div>
-
-            {/*Large Screen */}
             <div className="
                 mt-6
                 hidden 
