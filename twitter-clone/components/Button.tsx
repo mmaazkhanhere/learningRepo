@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
                 hover:opacity-80
                 transition
                 border-2
-                ${fullWidth ? 'w-full' : 'w-fit'}
+                ${fullWidth ? 'w-full' : 'w-fit'} 
                 ${secondary ? 'bg-white' : 'bg-sky-500'}
                 ${secondary ? 'text-black' : 'text-white'}
                 ${secondary ? 'border-black' : 'border-sky-500'}
@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
                 ${outline ? 'bg-transparent' : ''}
                 ${outline ? 'border-white' : ''}
                 ${outline ? 'text-white' : ''}
-                `}
+            `}
         >
             {label}
         </button>
