@@ -1,16 +1,27 @@
+/*A customizable input field that takes various props to control its 
+appearance, value, and behavior making it versatile for different use cases */
+
 interface InputProps {
-    placeholder?: string;
-    value?: string;
-    type?: string;
-    disabled?: boolean;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    label?: string;
+    placeholder?: string;/*An optional string prop for the input field's 
+    placeholder text */
+    value?: string; //an optional string prop for the input field's value
+    type?: string; //optional string prop for the input type (default is "text")
+    disabled?: boolean; //optional boolean prop that can disable the input field
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; /*A callback
+    function that can handles the input fields change events */
+    label?: string; /*optional label prop of the input field */
 }
 
 const Input: React.FC<InputProps> = ({ placeholder, value, type = "text", onChange, disabled, label }) => {
     return (
         <div className="w-full">
-            {label && <p className="text-xl text-white font-semibold mb-2">{label}</p>}
+            {/*Input field label */}
+            {
+                label && <p className="text-xl text-white font-semibold mb-2">
+                    {label}
+                </p>
+            }
+            {/*Input field */}
             <input
                 disabled={disabled}
                 onChange={onChange}

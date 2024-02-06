@@ -1,11 +1,21 @@
+/*A flexible react component that creates customizable button with various
+styles and behaviors. It accepts different props to configure the button's
+appearance and behavior */
+
 interface ButtonProps {
-    label: string;
-    secondary?: boolean;
-    fullWidth?: boolean;
-    large?: boolean;
-    onClick: () => void;
-    disabled?: boolean;
-    outline?: boolean;
+    label: string; //the text label to be displayed
+    secondary?: boolean; /*optional boolean prop indicating whether the button
+    should have a secondary (alternate) style */
+    fullWidth?: boolean; /*An optional boolean prop indicating whether the
+    button should take up the full width of container */
+    large?: boolean; /*An optional prop whether the rendered button should be a 
+    large button */
+    onClick: () => void; /*A required callback function that will be executed
+    when the button is clicked */
+    disabled?: boolean; /*an optional prop indicating whether button should 
+    be disabled */
+    outline?: boolean; /*An optional boolean prop indicating whether the button
+    should have an outline */
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,11 +26,11 @@ const Button: React.FC<ButtonProps> = ({
     large,
     disabled,
     outline
-}) => {
+}) => { //destructing the props passed to the component
     return (
         <button
-            disabled={disabled}
-            onClick={onClick}
+            disabled={disabled} //disabled when disabled prop is true
+            onClick={onClick} //onCLick function run when click on button
             className={`
                 disabled:opacity-70
                 disabled:cursor-not-allowed
@@ -39,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
                 ${outline ? 'bg-transparent' : ''}
                 ${outline ? 'border-white' : ''}
                 ${outline ? 'text-white' : ''}
-            `}
+            `} //conditional stylings
         >
             {label}
         </button>

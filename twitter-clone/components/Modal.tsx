@@ -1,41 +1,53 @@
+/*A react component which creates a modal dialog with customizable content
+and actions */
+
 import { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Button from "./Button";
 
 interface ModalProps {
-    isOpen?: boolean;
-    onClose: () => void;
-    onSubmit: () => void;
-    title?: string;
-    body?: React.ReactElement;
-    footer?: React.ReactElement;
-    actionLabel: string;
-    disabled?: boolean;
+    isOpen?: boolean; /*An optional prop that controls whether the modal is open
+    or close */
+    onClose: () => void; // a callback function to close the modal
+    onSubmit: () => void; // a callback function for handling the submit action
+    title?: string; //optional string prop for the modal title
+    body?: React.ReactElement; /*optional prop for the modal content that is
+    a React component */
+    footer?: React.ReactElement; /*optional prop for the modal footer content
+    that is a React component */
+    actionLabel: string; //label of the action button
+    disabled?: boolean;/*An optional prop that can disable the modal and 
+    its action */
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, actionLabel, footer, disabled }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, actionLabel, footer, disabled }) => { //destructuring the props
 
     const handleClose = useCallback(() => {
+        //function to handle closing of the modal
         if (disabled) {
-            return;
+            return; //if disabled, return nothing
         }
-
-        onClose();
+        onClose(); //close the modal
     }, [onClose, disabled]);
 
-    const handleSubmit = useCallback(() => {
-        if (disabled) {
-            return;
-        }
 
-        onSubmit();
+    const handleSubmit = useCallback(() => {
+        //function to handle submit of the modal
+        if (disabled) {
+            return; //if disabled, return nothing
+        }
+        onSubmit(); //submit the modal
     }, [onSubmit, disabled]);
 
+
     if (!isOpen) {
+        //if the modal is not open, return nothing
         return null;
     }
 
+
     return (
+
         <div
             className="
                 justify-center 
@@ -51,7 +63,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, a
                 bg-neutral-800
                 bg-opacity-70
             "
-        >
+        >{/*Styling for the background when the modal is displayed */}
+
             <div className="relative w-full lg:w-3/6 my-6 mx-auto lg:max-w-3xl h-full lg:h-auto">
                 {/*content*/}
                 <div className="
@@ -78,9 +91,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, a
                         rounded-t
                     "
                     >
+                        {/*Title */}
                         <h3 className="text-3xl font-semibold text-white">
                             {title}
                         </h3>
+                        {/*Close Button */}
                         <button
                             className="
                                 p-1 
