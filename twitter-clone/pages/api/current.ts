@@ -1,28 +1,24 @@
-import bcrypt from 'bcrypt';
-import { NextApiRequest, NextApiResponse } from "next";
+/*This API route ensures that only authenticated users can access it by
+authenticating the user using the 'serverAuth' middleware. If authentication
+is successful, it retrieves the current user's information and returns it
+as a JSON response */
 
-import prisma from '@/libs/prismadb';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import serverAuth from '@/libs/serverAuth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'POST') {
+    /*Checks if the request is a GET request */
+    if (req.method !== 'GET') {
         return res.status(405).end();
     }
 
     try {
-        const { email, username, name, password } = req.body;
+        const { currentUser } = await serverAuth(req, res); /*Calls the function,
+        passing the request and response and get the current user */
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        const user = await prisma.user.create({
-            data: {
-                email,
-                username,
-                name,
-                hashedPassword,
-            }
-        });
-
-        return res.status(200).json(user);
+        return res.status(200).json(currentUser);/*the current user is returned
+        in JSON */
     } catch (error) {
         console.log(error);
         return res.status(400).end();

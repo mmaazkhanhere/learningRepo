@@ -1,3 +1,7 @@
+/*Represents a sidebar navigation menu for the application. It display various
+items, including links to different pages, user profile, notifications, and a
+logout button.  */
+
 import { signOut } from 'next-auth/react';
 import { BiLogOut } from 'react-icons/bi';
 import { BsHouseFill, BsBellFill } from 'react-icons/bs';
@@ -14,9 +18,9 @@ const Sidebar = () => {
 
     const items = [
         {
-            icon: BsHouseFill,
-            label: 'Home',
-            href: '/',
+            icon: BsHouseFill, //icon to be displayed
+            label: 'Home', //label of that navigation item
+            href: '/', //where the navigation item will redirect to 
         },
         {
             icon: BsBellFill,
@@ -37,18 +41,31 @@ const Sidebar = () => {
         <div className="col-span-1 h-full pr-4 md:pr-6">
             <div className="flex flex-col items-end">
                 <div className="space-y-2 lg:w-[230px]">
+                    {/*Sidebar Logo */}
                     <SidebarLogo />
-                    {items.map((item) => (
-                        <SidebarItem
-                            key={item.href}
-                            alert={item.alert}
-                            auth={item.auth}
-                            href={item.href}
-                            icon={item.icon}
-                            label={item.label}
+                    {
+                        /*Sidebar items */
+                        items.map((item) => (
+                            <SidebarItem
+                                key={item.href}
+                                alert={item.alert}
+                                auth={item.auth}
+                                href={item.href}
+                                icon={item.icon}
+                                label={item.label}
+                            />
+                        ))
+                    }
+
+                    {/*If user is logged in, then display the logout button */}
+                    {
+                        currentUser && <SidebarItem
+                            onClick={() => signOut()}
+                            icon={BiLogOut}
+                            label="Logout"
                         />
-                    ))}
-                    {currentUser && <SidebarItem onClick={() => signOut()} icon={BiLogOut} label="Logout" />}
+                    }
+                    {/*Tweet button */}
                     <SidebarTweetButton />
                 </div>
             </div>

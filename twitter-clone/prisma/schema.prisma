@@ -12,46 +12,68 @@ datasource db {
 
 model User {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  username        String?   @unique
-  bio             String?
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  coverImage      String?
-  profileImage    String?
-  hashedPassword  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  followingIds    String[] @db.ObjectId
-  hasNotification Boolean?
+  name            String? //user name
+  username        String?   @unique //user's unique username
+  bio             String? //a short 'about me' section of the user
+  email           String?   @unique //user email address which should be unique
+  emailVerified   DateTime? //time when the user email was verified
+  image           String? //url to user image
+  coverImage      String? //url to user cover image
+  profileImage    String? //url to user profile image
+  hashedPassword  String? //hashed password of the user
+  createdAt       DateTime @default(now()) //time when the user was created
+  updatedAt       DateTime @updatedAt //time when the user was updated
+  followingIds    String[] @db.ObjectId //array of user ids a user is following
+  hasNotification Boolean? //boolean indicating if the user has a notification
 
-  posts         Post[]
-  comments      Comment[]
-  notifications Notification[]
+  posts         Post[] //1-to-many relation between user and post
+                      // A single user can have multiple posts
+  comments      Comment[] //1-to-many relation with the Comment Modal 
+  notifications Notification[] //1-to-many relation with the Notification Modal
 }
 
 model Post {
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  body               String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  userId             String @db.ObjectId
-  likedIds           String[] @db.ObjectId
-  image              String?
+  body               String //content of the post
+  createdAt          DateTime @default(now()) //when the post was created
+  updatedAt          DateTime @updatedAt //when the post was updated
+  userId             String @db.ObjectId //user id of the post
+  likedIds           String[] @db.ObjectId //liked id of the post
+  image              String? //url to the post image
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // many to one relation between user and post
+  
+  // @relation is a Prisma schema attribute used to define a relation between models
+  // fields specifies the filed in the current model that are used to establish
+  //  relationship. In this case, it references the 'userId' field in the 
+  // User model model
+
+  // references specifies the field in the related model that are referenced
+  // by the fields specified in field attirbute. This indicates that the 
+  // 'userId' field in the User model corresponds to the 'id' field in the
+  // related model (Post model)
+
+  // onDelete specifies the behavior of the relation when a recorder is deleted
+  // 'Cascade' means that if a record in the related model is deleted, all
+  // records in the User model that have a matching 'userId' will also be
+  // deleted
 
   comments          Comment[]
 }
 
 model Comment {
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  body               String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  userId             String @db.ObjectId
-  postId             String @db.ObjectId
+  body               String //body of the comment
+  createdAt          DateTime @default(now()) //when the comment was made
+  updatedAt          DateTime @updatedAt //when the comment was updated
+  userId             String @db.ObjectId //foreign key referencing the ID of the
+                                      // user who made the comment
+  //foreign key is a column or a set of columns in a database table that refers
+  //to the primary key or a unique key of another table
+
+  postId             String @db.ObjectId //foreign key referencing the ID of the
+                            // post to which the comment belongs
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -59,9 +81,9 @@ model Comment {
 
 model Notification {
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  body               String
-  userId             String @db.ObjectId
-  createdAt          DateTime @default(now())
+  body               String //body of the notification
+  userId             String @db.ObjectId //the user to whom the notification belongs
+  createdAt          DateTime @default(now()) //when the notification was created
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
