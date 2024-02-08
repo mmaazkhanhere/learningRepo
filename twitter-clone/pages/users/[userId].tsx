@@ -11,12 +11,15 @@ import UserHero from "@/components/users/UserHero";
 
 
 const UserView = () => {
-    const router = useRouter();
-    const { userId } = router.query;
+    const router = useRouter(); /*router hook is used to access the router object */
+    const { userId } = router.query; /*userId is extracted from the router's
+    query parameters */
 
-    const { data: fetchedUser, isLoading } = useUser(userId as string);
+    const { data: fetchedUser, isLoading } = useUser(userId as string);/*fetch
+    user data based on the userId */
 
     if (isLoading || !fetchedUser) {
+        /*If data is missing or is in loading state, display a loading spinner */
         return (
             <div className="flex justify-center items-center h-full">
                 <ClipLoader color="lightblue" size={80} />

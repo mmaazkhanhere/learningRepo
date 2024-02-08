@@ -1,3 +1,6 @@
+/*A reuseable avatar component that fetches the user's profile image based on
+the userId and clicking on the avatar navigates the user to their profile page. */
+
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -11,16 +14,23 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
-    const router = useRouter();
 
-    const { data: fetchedUser } = useUser(userId);
+    const router = useRouter();//for navigation
+
+    const { data: fetchedUser } = useUser(userId); /*The useUser hook is used
+    to fetch user data based on the userId */
 
     const onClick = useCallback((event: any) => {
-        event.stopPropagation();
 
-        const url = `/users/${userId}`;
+        /*A callback function is defined that navigates to the user's profile
+        page when the avatar is clicked */
 
-        router.push(url);
+        event.stopPropagation(); /*stops the event from reaching the parent
+        element or any other elements that may be listening for the same event */
+
+        const url = `/users/${userId}`; //url of the users profile
+
+        router.push(url); //url pushed to the router
     }, [router, userId]);
 
     return (
@@ -36,6 +46,8 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
                 relative
             `}
         >
+            {/*Image */}
+
             <Image
                 fill
                 style={{
