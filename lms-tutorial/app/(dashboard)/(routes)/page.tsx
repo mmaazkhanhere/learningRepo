@@ -1,9 +1,11 @@
-import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
     <p className="text-3xl font-bold text-red-500">
-      Hello World
+      <UserButton
+        afterSignOutUrl="/"
+      />
     </p>
   );
 }
