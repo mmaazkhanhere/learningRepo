@@ -1,13 +1,14 @@
 import { IconBadge } from '@/components/IconBadge'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
-import { LayoutDashboard } from 'lucide-react'
+import { CircleDollarSign, LayoutDashboard, ListChecks } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import TitleForm from './_components/TitleForm'
 import DescriptionForm from './_components/DescriptionForm'
 import ImageForm from './_components/ImageForm'
 import CategoryForm from './_components/CategoryForm'
+import PriceForm from './_components/PriceForm'
 
 type Props = {
     params: string
@@ -98,6 +99,33 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                             value: category.id
                         }))}
                     />
+                </div>
+
+                <div className='space-y-6'>
+                    <div>
+                        <div className='flex items-center gap-x-2'>
+                            <IconBadge icon={ListChecks} />
+                        </div>
+                        <h2 className='text-xl'>
+                            Course Chapters
+                        </h2>
+                        <div>
+                            Todo: Chapters
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='flex items-center gap-x-2'>
+                            <IconBadge icon={CircleDollarSign} />
+                            <h2 className='text-xl'>
+                                Sell your course
+                            </h2>
+                        </div>
+                        <PriceForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
