@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Chapter, Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
+import ChapterList from './ChapterList'
 
 
 type Props = {
@@ -129,7 +130,11 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
                         {
                             !initialData.chapters.length && 'No chapters'
                         }
-                        {/*TODO: Add a list of chapters */}
+                        <ChapterList
+                            onEdit={() => { }}
+                            onReorder={() => { }}
+                            items={initialData.chapters || []}
+                        />
                     </div>
                 )
             }
