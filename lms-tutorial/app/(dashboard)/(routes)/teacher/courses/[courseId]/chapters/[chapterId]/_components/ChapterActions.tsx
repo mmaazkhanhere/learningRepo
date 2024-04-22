@@ -35,10 +35,30 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }: Props) =
         }
     }
 
+    const onClick = async () => {
+        try {
+            setIsLoading(true);
+
+            if (isPublished) {
+                await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`)
+                toast.success("Chapter Unpublished");
+            } else {
+                await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`)
+                toast.success("Chapter published");
+            }
+
+            router.refresh();
+        } catch (error) {
+            toast.error("Something went wrong")
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className='flex items-center gap-x-2'>
             <Button
-                onClick={() => { }}
+                onClick={onClick}
                 disabled={disabled || isLoading}
                 variant="outline"
                 size="sm"
