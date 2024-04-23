@@ -36,11 +36,13 @@ model Course{
   @@index([categoryId])
 }
 
+
 model Category{
   id String @id @default(uuid())
   name String @unique
   courses Course[]
 }
+
 
 model Attachment {
   id String @id @default(uuid())
@@ -55,6 +57,7 @@ model Attachment {
 
   @@index([courseId])
 }
+
 
 model Chapter{
   id String @id @default(uuid())
@@ -78,6 +81,7 @@ model Chapter{
   @@index([courseId])
 }
 
+
 model MuxData{
   id String @id @default(uuid())
   assetId String
@@ -86,6 +90,7 @@ model MuxData{
   chapterId String @unique
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }
+
 
 model UserProgress{
   id String @id @default(uuid())
@@ -112,6 +117,7 @@ model Purchase{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
+  @@unique([userId, courseId])
   @@index([courseId])
 }
 
