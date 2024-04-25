@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
     const body = await req.text();
     const signature = headers().get("Stripe-Signature") as string;
 
@@ -36,8 +36,8 @@ export async function POST(req: Request) {
         });
     }
     else {
-        return new NextResponse(`Webhook Error: Unhandled event type ${event.type}`), { status: 200 }
+        return new NextResponse(`Webhook Error: Unhandled event type ${event.type}`, { status: 200 })
     }
 
-    return new NextResponse(null, { status: 200 });
+    return new NextResponse("Session Completed", { status: 200 });
 }
