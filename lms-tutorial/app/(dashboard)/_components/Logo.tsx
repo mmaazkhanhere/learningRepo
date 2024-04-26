@@ -1,3 +1,5 @@
+/*A react component that represents the logo for the application */
+
 import React from 'react'
 import Image from 'next/image'
 

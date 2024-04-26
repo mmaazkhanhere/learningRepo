@@ -1,3 +1,6 @@
+/*A react component that dynamically renders sidebar items based on whether the 
+user is identified as a teacher or student*/
+
 "use client"
 
 import { BarChart, Compass, Layout, List } from 'lucide-react'
