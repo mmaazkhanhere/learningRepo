@@ -14,118 +14,150 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//represents the course offered on the platform
 model Course{
-  id String @id @default(uuid())
-  userId String
-  title String @db.Text
-  description String ? @db.Text
-  imageUrl String? @db.Text
-  price Float?
-  isPublished Boolean @default(false)
+  id String @id @default(uuid()) //unique id for the course
+  userId String //userId for the user who created the course
+  title String @db.Text //title for the course
+  description String ? @db.Text //descript for the course (optional)
+  imageUrl String? @db.Text //image url for the course (optional)
+  price Float? //price for the course (optional)
+  isPublished Boolean @default(false) //is the course published
 
-  categoryId String?
-  category Category? @relation(fields: [categoryId], references: [id])
+  categoryId String? //id for the category to which the course belongs (optional)
+  category Category? @relation(fields: [categoryId], references: [id]) 
+  //many to one relation to the category model (a course can belong to one category)
+  //one to many relation means that mulitple records from one table (course) can
+  // be associated with a sinle record from another table (category)
 
-  chapters Chapter[]
-  attachments Attachment[]
-  purchases Purchase[]
+  chapters Chapter[] //one to many relationship (one course can have multiple chapters)
+  //one record in one table (Course) can be associated with multiple records
+  // in another table (Chapter)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  attachments Attachment[] //one to many relationship (one course can have multiple attachments)
+  purchases Purchase[] //one to many relationship (one course can have multiple purchases/buyers)
 
-  @@index([categoryId])
+  createdAt DateTime @default(now()) //time course is created 
+  updatedAt DateTime @updatedAt //time course is updated
+
+  @@index([categoryId]) // this directive indicates that the database should create
+  // an index on the categoryId column in the course table. This makes it easier
+  // and faster for your database to find all the courses in a certain category
 }
 
 
+//represents a category under which the courses are grouped
 model Category{
-  id String @id @default(uuid())
-  name String @unique
-  courses Course[]
+  id String @id @default(uuid()) //id of the category
+  name String @unique //name of the category
+  courses Course[] //one to many relationships with courses (one category can have
+  // multiple courses)
 }
 
 
+//represents an attachment associated with a course 
 model Attachment {
-  id String @id @default(uuid())
-  name String
-  url String @db.Text
+  id String @id @default(uuid()) //id of the attachment
+  name String //name of the attachment
+  url String @db.Text //url of the attachment
 
-  courseId String
+  courseId String //id of the course to which the attachment belongs
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  //one-to-many relationship (one course can have multiple attachments)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) //time of the attachment
+  updatedAt DateTime @updatedAt //time of the attachment updated
 
-  @@index([courseId])
+  @@index([courseId]) // this directive indicates that the database should create
+  // an index on the courseId column in the attachment table. This makes it easier
+  // and faster for your database to find all the attachment for a certain course
 }
 
 
+//represents a chapter within a course
 model Chapter{
-  id String @id @default(uuid())
-  title String
-  description String? @db.Text
-  videoUrl String? @db.Text
-  position Int
-  isPublished Boolean @default(false)
-  isFree Boolean @default(false)
+  id String @id @default(uuid()) //id of the chapter
+  title String //title of the chapter
+  description String? @db.Text //description of the chapter (optional)
+  videoUrl String? @db.Text //video url of the chapter (optional)
+  position Int //position of the chapter
+  isPublished Boolean @default(false) //is the chapter published with default value of false
+  isFree Boolean @default(false) //is the chapter free to access (default value of false)
 
-  muxData MuxData?
+  muxData MuxData? //one-to-many relationship with MuxData model
 
-  courseId String
+  courseId String //id of the course to which this chapter belongs
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  //many-to-one relationship with Course model (one course can have many chapters)
 
-  userProgress UserProgress[]
+  userProgress UserProgress[] //one-to-many relationship with user progress model
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) //time the course was created
+  updatedAt DateTime @updatedAt //time the course was updated
 
-  @@index([courseId])
+  @@index([courseId])// this directive indicates that the database should create
+  // an index on the courseId column in the chapter table. This makes it easier
+  // and faster for your database to find all the chapters for a certain course
 }
 
 
+//represents metadata associated with video content managed by the Mux
 model MuxData{
-  id String @id @default(uuid())
-  assetId String
-  playbackId String?
+  id String @id @default(uuid()) //unique identifier for the MuxData
+  assetId String //id of the asset in the mux
+  playbackId String? //id used for video playback
 
-  chapterId String @unique
+  chapterId String @unique //id of the chapter to which the data belongs
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  //many-to-one relationship with Chapter model (chapter can have multiple videos)
 }
 
 
+//a model that represens the user progress within a chapter
 model UserProgress{
-  id String @id @default(uuid())
-  userId String
+  id String @id @default(uuid()) //unique identifier for the user progress record
+  userId String //id of the user whose progress is being recorded
   
-  chapterId String
+  chapterId String //id of the chapter whose progress is being recorded
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  //many-to-one relationship with Chapter model
 
-  isCompleted Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isCompleted Boolean @default(false) //boolean value indicating whether the chapter is completed
+  createdAt DateTime @default(now()) //when the chapter record was created
+  updatedAt DateTime @updatedAt //when the chapter record was updated
 
-  @@index([chapterId])
-  @@unique([userId, chapterId])
+  @@index([chapterId]) //speed up queries that involve filtering, sorting, or joining
+  //data based on the chapterId column in the database
+
+  @@unique([userId, chapterId]) //the userId and chapterId must be unique in the
+  //table. This ensures that the database wont allow the user to mark the same
+  //chapter as completed multiple times
+
 }
 
+//model that represents a purchase made by a user
 model Purchase{
-  id String @id @default(uuid())
-  userId String
+  id String @id @default(uuid()) //unique identifier of the purchase
+  userId String //id of the user who made the purchase
 
-  courseId String
+  courseId String //id of the course purchase
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  //many-to-one relationship with course (a course can have multiple purchases)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  createdAt DateTime @default(now()) //time the course was purchased
+  updatedAt DateTime @updatedAt() //time the course was updated
 
-  @@unique([userId, courseId])
-  @@index([courseId])
+  @@unique([userId, courseId]) //user id and course id must be unique
+  @@index([courseId]) //indexing on the courseId column 
 }
 
-model StripeCustomer{
-  id String @id @default(uuid())
-  userId String @unique
-  stripeCustomerId String @unique
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//represents a stripe customer information
+model StripeCustomer{
+  id String @id @default(uuid()) //unique identifier for the customer
+  userId String @unique //id of the user
+  stripeCustomerId String @unique //id of the customer in the stripe system
+
+  createdAt DateTime @default(now()) //time the customer pay through stripe
+  updatedAt DateTime @updatedAt //time the purchase was updated
 }
