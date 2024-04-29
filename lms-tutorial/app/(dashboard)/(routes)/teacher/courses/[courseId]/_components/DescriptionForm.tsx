@@ -1,3 +1,7 @@
+/*React component that is used for editing the description of course along with form
+validation and submission handling using zod and react hook form. */
+
+
 "use client"
 
 import React, { useState } from 'react'
@@ -32,30 +36,37 @@ const formSchema = z.object({
     description: z.string().min(1, {
         message: 'Description is required'
     })
-})
+})//schema of the form that specifies the description must have one character
 
 const DescriptionForm = ({ initialData, courseId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false); /*state variable for determining
+    whether the user is currently editing the description or not*/
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter(); //router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*toggle function
+    to toggle the editing status of the current user */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             description: initialData?.description || ''
         }
-    });
+    }); /*creating an instance of the form with default value of initial form
+    description or an empty string */
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; //states of the form
 
+
+    /*An async function that is called when the form is submitted. It sends
+    a patch request to update the description of the course */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success('Description Updated')
-            toggleEdit();
-            router.refresh();
+            await axios.patch(`/api/courses/${courseId}`, values);//patch request
+            toast.success('Description Updated') //success notification if successful request
+            toggleEdit(); //toggle the editing status
+            router.refresh(); //refresh the router
         } catch (error) {
             toast.error('Something went wrong')
         }
@@ -68,6 +79,8 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
             <div className='font-medium flex items-center justify-between'>
                 Course Description
 
+                {/*Button that displays a cancel button if user is editing or
+                else displays edit description if user is not editing */}
                 <Button
                     onClick={toggleEdit}
                     variant='ghost'
@@ -84,6 +97,9 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the initial value the description.
+            If no description is present, display a no description text */}
             {
                 !isEditing && (
                     <p
@@ -96,6 +112,8 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
                     </p>
                 )
             }
+
+            {/*If user is editing, display a form */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -119,6 +137,8 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
                                     </FormItem>
                                 )}
                             />
+
+                            {/*Button that submits the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >

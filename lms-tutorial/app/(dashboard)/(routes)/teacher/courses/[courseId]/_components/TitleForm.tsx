@@ -1,3 +1,6 @@
+/*React component that is used for editing the title of course along with form
+validation and submission handling using zod and react hook form. */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -24,38 +27,50 @@ import { useRouter } from 'next/navigation'
 type Props = {
     initialData: {
         title: string
-    },
-    courseId: string
+    }, //title of the course
+    courseId: string //course id of which title is being edit
 }
 
 const formSchema = z.object({
     title: z.string().min(1, {
         message: 'Title is required'
     })
-})
+})/*a schema for form that specifies that title field must be a string of 
+minimum length of 1 */
 
 const TitleForm = ({ initialData, courseId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false); /*a state variable
+    that represents if user is editing the course title */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter();//router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*toggle
+    the current status of is editing (if current status of editing is true, it is
+        turned to false) */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
-    });
+    }); /*Initialize a form that takes form schema and initial title value
+    as default value */
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; /*states of the form
+    for disabling the form */
 
+
+    /*An async function that makes a PATCH request to the API endpoint to
+    update the course title with the new value */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success('Title Updated')
-            toggleEdit();
-            router.refresh();
+            await axios.patch(`/api/courses/${courseId}`, values);/*patch request 
+            to api endpoint*/
+
+            toast.success('Title Updated')//success notification
+            toggleEdit(); //call the toggle edit functions to change the edit value
+            router.refresh(); //refresh the router
         } catch (error) {
-            toast.error('Something went wrong')
+            toast.error('Something went wrong') //display error notification if something went wrong
         }
     }
 
@@ -66,6 +81,8 @@ const TitleForm = ({ initialData, courseId }: Props) => {
             <div className='font-medium flex items-center justify-between'>
                 Course Title
 
+                {/*A button that display is edit if user is not editing otherwise a 
+                cancel if user is editing */}
                 <Button
                     onClick={toggleEdit}
                     variant='ghost'
@@ -82,6 +99,8 @@ const TitleForm = ({ initialData, courseId }: Props) => {
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the initial title */}
             {
                 !isEditing && (
                     <p
@@ -91,6 +110,8 @@ const TitleForm = ({ initialData, courseId }: Props) => {
                     </p>
                 )
             }
+
+            {/*If user is editing, display a form to edit the title of the course */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -114,6 +135,8 @@ const TitleForm = ({ initialData, courseId }: Props) => {
                                     </FormItem>
                                 )}
                             />
+
+                            {/*Button to submit the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >
