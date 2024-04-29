@@ -20,12 +20,17 @@ type Props = {
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
-    const { userId } = auth();
+    const { userId } = auth(); /*retrieves the id of the current authenticated
+    user using auth function of Clerk */
 
     if (!userId) {
+        //If there is no authenticated user, the user is redirected to the homepage
         return redirect('/')
     }
 
+    /*Fetch the course data from the database that includes chapter that are 
+    ordered in ascending order (The first created chapter is placed on the top)
+    and the attachments that are ordered in descending order (the latest on top) */
     const course = await db.course.findUnique({
         where: {
             id: params.courseId,
@@ -45,6 +50,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         }
     })
 
+
+    /*Fetches the categories that are ordered in ascending order (alphabetically) */
     const categories = await db.category.findMany({
         orderBy: {
             name: "asc"
@@ -53,6 +60,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
 
     if (!course) {
+        /*If there is no course, the user is redirected to homepage */
         return redirect('/')
     }
 
@@ -64,18 +72,25 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         course.categoryId,
         course.chapters.some(chapter => chapter.isPublished)
     ];
+    /*An array of the required fields that are needed for a course to be
+    published */
 
-    const totalFields = requiredFields.length;
-    const completedFields = requiredFields.filter(Boolean).length;
+    const totalFields = requiredFields.length; //total number of required fields
 
-    const completionText = `(${completedFields}/${totalFields})`
+    const completedFields = requiredFields.filter(Boolean).length;/*Filter
+    all the fields are filled (true) */
 
-    const isComplete = requiredFields.every(Boolean);
+    const completionText = `(${completedFields}/${totalFields})`/*Display
+    fields that are completed */
+
+    const isComplete = requiredFields.every(Boolean); /*A variable that is 
+    true if all the required fields are true */
 
     return (
 
         <>
 
+            {/*If a course is not published, a banner is displayed displaying a message */}
             {
                 !course.isPublished && (
                     <Banner
@@ -90,13 +105,18 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             >
                 <div className='flex items-center justify-between'>
                     <div className='flex flex-col gap-y-2'>
+
+                        {/*Heading */}
                         <h1 className='text-2xl font-medium'>
                             Course Setup
                         </h1>
+
+                        {/*Fields completed */}
                         <span className='text-sm text-slate-700'>
                             Complete all fields {completionText}
                         </span>
                     </div>
+
 
                     <Actions
                         disabled={!isComplete}
@@ -104,8 +124,15 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                         isPublished={course.isPublished}
                     />
                 </div>
+
+
+                {/*Details */}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-16'>
+
+                    {/*Left Grid */}
                     <div>
+
+                        {/*Customize Course */}
                         <div className='flex items-center gap-x-2'>
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className='text-xl'>
@@ -113,21 +140,25 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                             </h2>
                         </div>
 
+                        {/*Course Title */}
                         <TitleForm
                             initialData={course}
                             courseId={course.id}
                         />
 
+                        {/*Course Description */}
                         <DescriptionForm
                             initialData={course}
                             courseId={course.id}
                         />
 
+                        {/*Course Image */}
                         <ImageForm
                             initialData={course}
                             courseId={course.id}
                         />
 
+                        {/*Course Category */}
                         <CategoryForm
                             initialData={course}
                             courseId={course.id}
@@ -139,6 +170,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                     </div>
 
                     <div className='space-y-6'>
+
+                        {/*Course Chapters */}
                         <div>
                             <div className='flex items-center gap-x-2'>
                                 <IconBadge icon={ListChecks} />
@@ -152,6 +185,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                             />
                         </div>
 
+                        {/*Course Price */}
                         <div>
                             <div className='flex items-center gap-x-2'>
                                 <IconBadge icon={CircleDollarSign} />
@@ -165,6 +199,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                             />
                         </div>
 
+                        {/*Course Attachments */}
                         <div>
                             <div className='flex items-center gap-x-2'>
                                 <IconBadge icon={File} />
