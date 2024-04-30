@@ -5,11 +5,11 @@ import * as z from 'zod'
 import axios from 'axios'
 
 import { Button } from '@/components/ui/button'
-import { File, ImageIcon, Loader2, Pencil, PlusCircle, X } from 'lucide-react'
+import { File, Loader2, PlusCircle, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { Attachment, Course } from '@prisma/client'
-import Image from 'next/image'
+
 import { FileUpload } from '@/components/FileUpload'
 
 
@@ -20,17 +20,25 @@ type Props = {
 
 const formSchema = z.object({
     url: z.string().min(1)
-})
+}) //form schema that specifies a url required with length greater than 1
 
 const AttachmentForm = ({ initialData, courseId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState(false);/*state variable for 
+    user editing status */
 
-    const router = useRouter();
+    const [deletingId, setDeletingId] = useState<string | null>(null); /*Tracks the
+    id of the attachment being deleted */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter(); //router object for navigation
 
+    const toggleEdit = () => setIsEditing((current) => !current)/*function to
+    toggle the user editing status */
+
+    /*An async function that is called when user submits the form. It makes
+    a POST request to the specified endpoint. If the status is successful, a
+    success notification is displayed, the user editing status is toggled and
+    the page is refresh */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.post(`/api/courses/${courseId}/attachments`, values);
@@ -42,6 +50,11 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
         }
     }
 
+
+    /*An async function that is called when user deletes an attachment. It sends
+    a delete HTTP request to the server to remove the attachment with the specified
+    ID. It also updates the UI by removing the attachment from the list by refreshing
+    the page */
     const onDelete = async (id: string) => {
         try {
             setDeletingId(id);
@@ -66,12 +79,15 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+
+                    {/*When user is editing display a cancel button */}
                     {
                         isEditing && (
                             <>Cancel</>
                         )
                     }
 
+                    {/*If user is not editing, display add a file button */}
                     {
                         !isEditing && (
                             <>
@@ -85,6 +101,9 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                 </Button>
             </div>
 
+            {/*If user is not editing, no attachments are added, it display
+            a text specifying that no attachments are added yet. Else a file
+            icon along with file name is being displayed */}
             {
                 !isEditing && (
                     <>
@@ -97,6 +116,8 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                                 </p>
                             )
                         }
+
+                        {/*If files are there, the files are displayed */}
                         {
                             initialData.attachments.length > 0 && (
                                 <div className='space-y-2'>
@@ -114,6 +135,9 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                                                 <p className='text-xs line-clamp-1'>
                                                     {attachment.name}
                                                 </p>
+
+                                                {/*When user is deleting an attachment
+                                                a loader is displayed */}
                                                 {
                                                     deletingId === attachment.id && (
                                                         <div>
@@ -122,6 +146,10 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                                                     )
                                                 }
 
+                                                {/*If the id of the file requested id
+                                                is not same as the attachment id, a x
+                                                icon is displayed, clicking on which deletes
+                                                the attachment */}
                                                 {
                                                     deletingId !== attachment.id && (
                                                         <button
@@ -142,6 +170,9 @@ const AttachmentForm = ({ initialData, courseId }: Props) => {
                 )
             }
 
+            {/*When user is editing, file upload component is displayed that 
+            is used to call the endpoint courseAttachment to upload
+            attachment */}
             {
                 isEditing && (
                     <div>
