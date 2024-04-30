@@ -20,12 +20,13 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Course } from '@prisma/client'
-import { Combobox } from '@/components/ui/combobox'
+
+import { Combobox } from '@/components/ui/combobox' /*Tweak the combobox accordingly */
 
 
 type Props = {
-    initialData: Course;
-    courseId: string;
+    initialData: Course; //initial data of the course
+    courseId: string; //the id of the course being edited
     options: {
         label: string;
         value: string;
@@ -34,24 +35,32 @@ type Props = {
 
 const formSchema = z.object({
     categoryId: z.string().min(1)
-})
+}) /*form schema which specifies the category id must be specified */
 
 const CategoryForm = ({ initialData, courseId, options }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false); /*state variable for the
+    user form editing status */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter(); //router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*function that 
+    toggles the user editing status */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             categoryId: initialData?.categoryId || ''
         }
-    });
+    }); /*Initializes a form with default value as initial value, if present, or
+    an empty string */
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState;/*states of the form */
 
+
+    /*An async function that makes a PATCH HTTP request ot the specified endpoint.
+    If the request is successful, display a success notification and refresh the
+    page. If an error occurs, display an error notification */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
@@ -64,6 +73,7 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
     }
 
     const selectedOption = options.find((option) => option.value === initialData.categoryId)
+    //find the selected category 
 
     return (
         <div
@@ -72,6 +82,8 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
             <div className='font-medium flex items-center justify-between'>
                 Course Category
 
+                {/*Display a cancel button if user is still editing or else display
+                edit category button */}
                 <Button
                     onClick={toggleEdit}
                     variant='ghost'
@@ -88,6 +100,9 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the selected option or display
+            no category if no category is selected */}
             {
                 !isEditing && (
                     <p
@@ -100,6 +115,9 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
                     </p>
                 )
             }
+
+            {/*If user is editing, display a form with a selection box along
+            with search   */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -113,6 +131,8 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
+
+                                            {/*Tweak the combobox accordingly in the ui folder */}
                                             <Combobox
                                                 options={options}
                                                 {...field}
@@ -122,6 +142,8 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
                                     </FormItem>
                                 )}
                             />
+
+                            {/*Button to submit the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >
