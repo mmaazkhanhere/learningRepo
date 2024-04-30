@@ -1,3 +1,7 @@
+/*React component responsible for displaying and editing the category of a course.
+It manages the editing style, handles form submission, and provides a user
+friendly interface for selecting the category using combobox */
+
 "use client"
 
 import React, { useState } from 'react'

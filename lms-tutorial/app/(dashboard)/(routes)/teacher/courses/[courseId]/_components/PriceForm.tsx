@@ -1,3 +1,7 @@
+/*React component that provides functionality to view and edit the price of a 
+course. It handles form submission, display the current price, and allow users to
+input and save a new price for course */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -31,24 +35,30 @@ type Props = {
 
 const formSchema = z.object({
     price: z.coerce.number(),
-})
+}) //form schema the specifies to provide price for the course
 
 const PriceForm = ({ initialData, courseId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false);/*state variable for
+    the user editing status */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter();//router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*function to
+    toggle the user editing status */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             price: initialData?.price || undefined
         }
-    });
+    }); /*Initialize form with default value as that already set price or undefined */
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; //state of the form
 
+    /*An async function that is called when the user submits the form. It makes
+    a PATCH HTTP request to the specified endpoint. If the status is successful,
+    a toast is displayed and the page is refreshed */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
@@ -71,6 +81,8 @@ const PriceForm = ({ initialData, courseId }: Props) => {
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+                    {/*If user is editing, display a cancel button or else
+                    display an edit price button */}
                     {
                         isEditing ? (
                             <>Cancel</>
@@ -83,6 +95,9 @@ const PriceForm = ({ initialData, courseId }: Props) => {
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the already provide course price
+            or if no price is provided, display no price text */}
             {
                 !isEditing && (
                     <p
@@ -97,6 +112,8 @@ const PriceForm = ({ initialData, courseId }: Props) => {
                     </p>
                 )
             }
+
+            {/*If user is editing, display a form tho provide a price for the course */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -122,6 +139,8 @@ const PriceForm = ({ initialData, courseId }: Props) => {
                                     </FormItem>
                                 )}
                             />
+
+                            {/*Button to submit the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >
