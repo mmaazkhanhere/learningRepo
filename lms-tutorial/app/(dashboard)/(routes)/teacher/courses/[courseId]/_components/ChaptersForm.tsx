@@ -1,3 +1,5 @@
+/*This react component is responsible for managing chapters within a course */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -15,11 +17,10 @@ import {
 } from '@/components/ui/form'
 
 import { Button } from '@/components/ui/button'
-import { Loader2, Pencil, PlusCircle } from 'lucide-react'
+import { Loader2, PlusCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Textarea } from '@/components/ui/textarea'
 import { Chapter, Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
 import ChapterList from './ChapterList'
@@ -33,14 +34,21 @@ type Props = {
 const formSchema = z.object({
     title: z.string().min(1)
 });
+//form schema that specifies that the length of title of chapter should be greater than 1
 
 const ChaptersForm = ({ initialData, courseId }: Props) => {
 
-    const [isCreating, setIsCreating] = useState(false);
-    const [isUpdating, setIsUpdating] = useState(false);
-    const router = useRouter();
+    const [isCreating, setIsCreating] = useState(false);/*state variable that
+    manages whether the user is currently creating a new chapter */
 
-    const toggleCreating = () => setIsUpdating((current) => !current)
+    const [isUpdating, setIsUpdating] = useState(false);/*state variable that 
+    manages whether the component is currently performing an update operation,
+    such as reordering chapter */
+
+    const router = useRouter(); //router object for navigation
+
+    const toggleCreating = () => setIsUpdating((current) => !current) /*
+    function to toggle the user creating status */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,9 +56,15 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
             title: ''
         }
     });
+    //initialize a form with default value of title as an empty string
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; //states of the form
 
+
+    /*An async function that is called when the user submits the form. It makes
+    a POST HTTP request to the specified endpoint. If the request is successful,
+    a success notification is displayed, the user creating status is changed,
+    and the page is refreshed */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.post(`/api/courses/${courseId}/chapters`, values);
@@ -62,17 +76,22 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
         }
     }
 
+    /*The function is responsible for handling the reordering of chapters within
+    a course. It receives an array of object containing an id and position of
+    each chapter */
     const onReorder = async (updateData: { id: string, position: number }[]) => {
         try {
 
-            setIsUpdating(true);
+            setIsUpdating(true); //set the update status to true
 
             await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
                 list: updateData
-            })
+            }) /*Make an PUT HTTP request to the specified endpoint with the 
+            payload containing the object passed as a parameter */
 
-            toast.success('Chapter Reordered');
-            router.refresh();
+            toast.success('Chapter Reordered'); /*If status successful, a success
+            notification is displayed */
+            router.refresh(); //refresh the page
 
         } catch (error) {
             toast.error('Something went wrong');
@@ -81,6 +100,8 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
         }
     }
 
+
+    /*function that navigates the user to the page for editing a specific chapter */
     const onEdit = (id: string) => {
         router.push(`/teacher/courses/${courseId}/chapters/${id}`);
     };
@@ -89,6 +110,8 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
         <div
             className='relative mt-6 border bg-slate-100 rounded-md p-4'
         >
+
+            {/*If the updating status is true, display a loading spinner */}
             {
                 isUpdating && (
                     <div
@@ -99,9 +122,13 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
                     </div>
                 )
             }
+
+
             <div className='font-medium flex items-center justify-between'>
                 Course Chapters
 
+                {/*Display cancel button if user is creating else display
+                add a chapter button */}
                 <Button
                     onClick={toggleCreating}
                     variant='ghost'
@@ -118,7 +145,9 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
                     }
                 </Button>
             </div>
+
             {
+                /*If user is creating a chapter, a form is displayed */
                 isCreating && (
                     <Form {...form}>
                         <form
@@ -142,6 +171,7 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
                                 )}
                             />
 
+                            {/*Button to submit the form */}
                             <Button
                                 disabled={!isValid || isSubmitting}
                                 type='submit'
@@ -154,6 +184,8 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
                 )
             }
 
+            {/*If user is not creating, display the length of chapter and list of
+            chapters */}
             {
                 !isCreating && (
                     <div className={cn(
