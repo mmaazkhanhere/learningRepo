@@ -1,3 +1,6 @@
+/*A react component that handles action related to courses, such as publishing or
+unpublishing a course and deleting a course */
+
 "use client"
 
 import ConfirmModal from '@/components/modals/ConfirmModal'
@@ -17,10 +20,13 @@ type Props = {
 
 const Actions = ({ disabled, courseId, isPublished }: Props) => {
 
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
-    const confetti = useConfettiStore();
+    const router = useRouter();//router object for navigation
+    const [isLoading, setIsLoading] = useState(false); //loading state
+    const confetti = useConfettiStore(); //hook to access confetti functionality
 
+    /*a function that is called when user deletes a course. It sends a DELETE HTTP
+    request to the server to delete the course with specified courseId. It
+    displays a success if the deletion is successful and refresh the page */
     const onDelete = async () => {
 
         try {
@@ -36,6 +42,9 @@ const Actions = ({ disabled, courseId, isPublished }: Props) => {
         }
     }
 
+    /*An async function that is called when user clicks on publish or unpublish
+    button. It sends a PATCH HTTP request to the api endpoint and display
+    a success notification if request is successful */
     const onClick = async () => {
         try {
             setIsLoading(true);
