@@ -1,3 +1,7 @@
+/*A react component that provides a user friendly interface for managing chapter
+actions, including publish/unpublished and delete functionalities, while handling
+loading states and displaying toast messages to provide feedback to the user */
+
 "use client"
 
 import ConfirmModal from '@/components/modals/ConfirmModal'
@@ -17,9 +21,14 @@ type Props = {
 
 const ChapterActions = ({ disabled, courseId, chapterId, isPublished }: Props) => {
 
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter(); //router object for navigation
+    const [isLoading, setIsLoading] = useState(false) //loading state 
 
+
+    /*An async function that is called when the user confirm deletion. It sends
+    a DELETE http request to the specified endpoint to delete the chapter. If the
+    request is successful, it display a success notification and redirects the
+    user to the course page */
     const onDelete = async () => {
 
         try {
@@ -35,6 +44,9 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }: Props) =
         }
     }
 
+    /*An async function that is called when the user clicks the publish/unpublish
+    button. After sending the request, it display a success notification and
+    refresh the page */
     const onClick = async () => {
         try {
             setIsLoading(true);
@@ -57,6 +69,8 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }: Props) =
 
     return (
         <div className='flex items-center gap-x-2'>
+
+            {/*Button that display a publish/unpublish message */}
             <Button
                 onClick={onClick}
                 disabled={disabled || isLoading}
@@ -69,6 +83,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }: Props) =
             <ConfirmModal
                 onConfirm={onDelete}
             >
+                {/*Button to delete the course */}
                 <Button
                     size='sm'
                     disabled={isLoading}

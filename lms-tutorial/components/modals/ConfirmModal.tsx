@@ -1,3 +1,6 @@
+/*A react component that creates a modal dialog that prompts the user to confirm
+the deletion of the course before proceeding */
+
 "use client"
 
 import React from 'react'
