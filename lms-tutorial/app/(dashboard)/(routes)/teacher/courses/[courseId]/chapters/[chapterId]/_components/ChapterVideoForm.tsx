@@ -1,3 +1,6 @@
+/*a react component that handles the editing of chapter video settings, including
+uploading and displaying videos*/
+
 "use client"
 
 import React, { useState } from 'react'
@@ -21,15 +24,20 @@ type Props = {
 
 const formSchema = z.object({
     videoUrl: z.string().min(1)
-})
+})//schema for the form that specifies that the video url is required
 
 const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false); /*editing status of the
+    user */
+    const router = useRouter(); //router object for navigation
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const toggleEdit = () => setIsEditing((current) => !current)/*function to
+    toggle the editing status of the user */
 
+    /*an async function that is called when user submits the form. It makes
+    a PATCH request to the specified endpoint. If the request is successful,
+    it display a success notification and refresh the page */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
@@ -52,12 +60,15 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+                    {/*If user is editing display, cancel text */}
                     {
                         isEditing && (
                             <>Cancel</>
                         )
                     }
 
+                    {/*If user is not editing, and there is no video uploaded before,
+                    display add a video text */}
                     {
                         (!isEditing && !initialData.videoUrl) && (
                             <>
@@ -67,6 +78,8 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
                         )
                     }
 
+                    {/*If user is not editing and have a video already uploaded,
+                    display edit video text */}
                     {
                         !isEditing && initialData.videoUrl && (
                             <>
@@ -78,6 +91,8 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
                 </Button>
             </div>
 
+            {/*If user is not editing and there is no video url, display a video icon
+            or else display the video uploaded  */}
             {
                 !isEditing && (
                     !initialData.videoUrl ? (
@@ -97,6 +112,8 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
                 )
             }
 
+            {/*If user is editing, display the file upload button with the endpoint
+            that of chapter video to specify that we are uploading a chapter video */}
             {
                 isEditing && (
                     <div>
@@ -116,6 +133,7 @@ const ChapterVideoForm = ({ initialData, courseId, chapterId }: Props) => {
                 )
             }
 
+            {/*If user is not editing and there exists a video url, display the text */}
             {
                 initialData.videoUrl && !isEditing && (
                     <div className='text-xs text-muted-foreground mt-2'>

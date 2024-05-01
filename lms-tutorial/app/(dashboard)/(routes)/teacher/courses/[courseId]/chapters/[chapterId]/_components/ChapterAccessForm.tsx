@@ -1,3 +1,6 @@
+/*A react component that allows user to edit the access settings for a chapter in
+ a course (is the course free or required rpo subscription to view) */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -21,8 +24,6 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Chapter } from '@prisma/client'
-import { Editor } from '@/components/Editor'
-import { Preview } from '@/components/Preview'
 import { Checkbox } from "@/components/ui/checkbox"
 
 
@@ -35,24 +36,30 @@ type Props = {
 
 const formSchema = z.object({
     isFree: z.boolean().default(false)
-})
+}) //form schema that specifies that by default value of isFree is false
 
 const ChapterAccessForm = ({ initialData, courseId, chapterId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false);/*state variable for the
+    user editing status */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter();// router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*function to toggle
+    user editing status */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             isFree: !!initialData.isFree
         }
-    });
+    }); //initialize the form with default value 
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; //states of form
 
+    /*an async function that is called when user submits the form. It makes a
+    PATCH HTTP request to the specified endpoint. If the request status is successful,
+    a success notification is displayed and page is refreshed */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
@@ -75,6 +82,8 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: Props) => {
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+                    {/*Display cancel button if user is editing or edit access 
+                    button if user is not editing */}
                     {
                         isEditing ? (
                             <>Cancel</>
@@ -87,6 +96,9 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: Props) => {
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the chapter access, with different
+            text displayed depending if the course is free or not */}
             {
                 !isEditing && (
                     <div
@@ -105,6 +117,9 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: Props) => {
                     </div>
                 )
             }
+
+            {/*If user is editing, display a form with a checkbox for marking
+            the chapter free  */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -134,6 +149,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: Props) => {
                                     </FormItem>
                                 )}
                             />
+                            {/*Button to submit the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >
