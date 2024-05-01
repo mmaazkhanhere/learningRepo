@@ -1,3 +1,6 @@
+/*A react component that is responsible for rendering and handling the
+editing of a chapter's title */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -31,22 +34,29 @@ type Props = {
 
 const formSchema = z.object({
     title: z.string().min(1)
-})
+})//specifies the schema for the form which specifies that the title must be provided
 
 const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false);/*state variable for handling
+    the editing status of the user */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter();//router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current)/*function that
+    toggles the editing status of the user */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
-    });
+    }); //initialize the form with default values set as initial data provided
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState;//state of the form
 
+    /*An async function that is called when the form is submitted. It makes a
+    PATCH HTTP request to the specified api endpoint along with payload containing
+    the value of the form. It display a success notification if the request is 
+    successful. */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
@@ -69,6 +79,8 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+                    {/*If user is editing, display a cancel button or else display
+                    an edit title button */}
                     {
                         isEditing ? (
                             <>Cancel</>
@@ -81,6 +93,7 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
                     }
                 </Button>
             </div>
+            {/*If user is not editing, display the initial title */}
             {
                 !isEditing && (
                     <p
@@ -90,6 +103,8 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
                     </p>
                 )
             }
+
+            {/*If user is editing, display a form that takes the title */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -113,6 +128,8 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
                                     </FormItem>
                                 )}
                             />
+
+                            {/*Button that submits the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >

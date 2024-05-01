@@ -21,12 +21,15 @@ type Props = {
 
 const ChapterId = async ({ params }: Props) => {
 
-    const { userId } = auth();
+    const { userId } = auth(); // get the id of the current signed in user
 
     if (!userId) {
+        //if no signed in user, redirect to homepage
         return redirect('/')
     }
 
+    /*query the database to get the chapters of specified courseId passed in the
+    params. The returned data will also include mux data */
     const chapter = await db.chapter.findUnique({
         where: {
             id: params.chapterId,
@@ -37,25 +40,33 @@ const ChapterId = async ({ params }: Props) => {
         }
     });
 
+    // if no such chapter exits, redirect to the homepage
     if (!chapter) {
         return redirect("/")
     }
 
+    /*An array of fields required to publish a chapter. It includes title of the
+    chapter, description of chapter, and video url of the chapter */
     const requiredFields = [
         chapter.title,
         chapter.description,
         chapter.videoUrl
     ];
 
-    const totalFields = requiredFields.length
-    const completedFields = requiredFields.filter(Boolean).length;
+    const totalFields = requiredFields.length //total fields required
+    const completedFields = requiredFields.filter(Boolean).length; /*Filter
+    out all completed fields from the required fields */
 
-    const completionText = `(${completedFields}/${totalFields})`;
+    const completionText = `(${completedFields}/${totalFields})`; /*Display
+    fields that are fulfilled out of total fields */
 
-    const isComplete = requiredFields.every(Boolean);
+    const isComplete = requiredFields.every(Boolean); /*The chapter is ready to be
+    published if all the fields required are filled */
 
     return (
         <>
+            {/*If chapter is not published, display a banner that the chapter is not
+        published */}
             {
                 !chapter.isPublished && (
                     <Banner
@@ -70,6 +81,8 @@ const ChapterId = async ({ params }: Props) => {
             >
                 <div className='flex items-center justify-between'>
                     <div className='w-full'>
+
+                        {/*A back button */}
                         <Link
                             href={`/teacher/courses/${params.courseId}`}
                             className='flex items-center text-sm hover:opacity-75
@@ -80,6 +93,8 @@ const ChapterId = async ({ params }: Props) => {
                         </Link>
 
                         <div className='flex items-center justify-between w-full'>
+
+                            {/*Fields completed */}
                             <div className='flex flex-col gap-y-2'>
                                 <h1 className='text-2xl font-medium'>
                                     Chapter Creation
@@ -99,6 +114,7 @@ const ChapterId = async ({ params }: Props) => {
                     </div>
                 </div>
 
+                {/*Chapter Fields */}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-16'>
                     <div className='space-y-4'>
                         <div>
@@ -110,12 +126,15 @@ const ChapterId = async ({ params }: Props) => {
                                     Customize your chapters
                                 </h2>
                             </div>
+
+                            {/*Chapter Title */}
                             <ChapterTitleForm
                                 initialData={chapter}
                                 courseId={params.courseId}
                                 chapterId={params.chapterId}
                             />
 
+                            {/*Chapter Description */}
                             <ChapterDescriptionForm
                                 initialData={chapter}
                                 courseId={params.courseId}
@@ -123,6 +142,7 @@ const ChapterId = async ({ params }: Props) => {
                             />
                         </div>
 
+                        {/*Chapter Access (paid or free) Form */}
                         <div>
                             <div className='flex items-center gap-x-2'>
                                 <IconBadge icon={Eye} />
@@ -138,6 +158,7 @@ const ChapterId = async ({ params }: Props) => {
                         </div>
                     </div>
 
+                    {/*Chapter Video */}
                     <div>
                         <div className='flex items-center gap-x-2'>
                             <IconBadge icon={Video} />
