@@ -1,3 +1,7 @@
+/*A react component for editing the description of a chapter and seamlessly 
+integrate rich text editing functionality while handling form submission and
+validation */
+
 "use client"
 
 import React, { useState } from 'react'
@@ -32,24 +36,31 @@ type Props = {
 
 const formSchema = z.object({
     description: z.string().min(1)
-})
+}) //schema for form which specifies that the description is required
 
 const ChapterDescriptionForm = ({ initialData, courseId, chapterId }: Props) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-    const router = useRouter();
+    const [isEditing, setIsEditing] = useState(false);/*state variable for handling
+    the user editing status */
 
-    const toggleEdit = () => setIsEditing((current) => !current)
+    const router = useRouter();//router object for navigation
+
+    const toggleEdit = () => setIsEditing((current) => !current) /*function that
+    toggles the user editing status */
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             description: initialData?.description || ''
         }
-    });
+    });/*initialize the form with default value of description as that initially
+    declared or an empty string */
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting, isValid } = form.formState; //state of the forms
 
+    /*Function that is called when user submits the form. It makes a PATCH
+    HTTP request to the specified endpoint. If the request is successful, a 
+    success notification is displayed and the page is refreshed */
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
@@ -72,6 +83,8 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }: Props) => 
                     onClick={toggleEdit}
                     variant='ghost'
                 >
+                    {/*If user is editing, display a cancel text or else
+                    display edit description button */}
                     {
                         isEditing ? (
                             <>Cancel</>
@@ -84,6 +97,9 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }: Props) => 
                     }
                 </Button>
             </div>
+
+            {/*If user is not editing, display the initial specified data or
+            no description message */}
             {
                 !isEditing && (
                     <div
@@ -103,6 +119,9 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }: Props) => 
                     </div>
                 )
             }
+
+            {/*If user is in editing state, display a form that have text editor
+            to specify the description of the chapter */}
             {
                 isEditing && (
                     <Form {...form}>
@@ -124,6 +143,7 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }: Props) => 
                                     </FormItem>
                                 )}
                             />
+                            {/*Button to submit the form */}
                             <div
                                 className='flex items-center gap-x-2'
                             >
