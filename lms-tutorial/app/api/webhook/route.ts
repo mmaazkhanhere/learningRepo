@@ -1,3 +1,7 @@
+/*Defines a webhook handler function 'POST' that listens for events from the Stripe
+webhook endpoint that ensures when a stripe checkout is completed, the corresponding
+purchase is recorded in the database */
+
 import Stripe from "stripe";
 import { headers } from "next/headers"
 import { NextResponse } from "next/server";
@@ -6,8 +10,10 @@ import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
 
 export async function POST(req: Request): Promise<Response> {
-    const body = await req.text();
-    const signature = headers().get("Stripe-Signature") as string;
+
+    const body = await req.text(); //get the body from the request
+
+    const signature = headers().get("Stripe-Signature") as string; //get stripe signature
 
     let event: Stripe.Event;
 
