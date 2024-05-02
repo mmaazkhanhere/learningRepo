@@ -1,3 +1,6 @@
+/*A react component responsible for rendering a list of courses, each represented
+ by a course card */
+
 import React from 'react'
 import { Category, Course } from '@prisma/client'
 import CourseCard from '@/components/CourseCard';
@@ -35,6 +38,8 @@ const CoursesList = ({ items }: Props) => {
                     ))
                 }
             </div>
+
+            {/*If no courses, display no course found */}
             {
                 items.length === 0 && (
                     <div className='text-center text-sm text-muted-foreground mt-10'>

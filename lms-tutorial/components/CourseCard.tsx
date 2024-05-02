@@ -1,3 +1,5 @@
+/*A react component that is used to display a card representing a course */
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -25,6 +27,7 @@ const CourseCard = ({ id, title, imageUrl, chaptersLength, price, progress, cate
                 className='group hover:shadow-sm transition overflow-hidden border
             rounded-lg p-3 h-full'
             >
+                {/*Course Image */}
                 <div className='relative w-full aspect-video rounded-md'>
                     <Image
                         fill
@@ -35,12 +38,16 @@ const CourseCard = ({ id, title, imageUrl, chaptersLength, price, progress, cate
                 </div>
 
                 <div className='flex flex-col pt-2'>
+
+                    {/*Title */}
                     <div
                         className='text-lg md:text-base font-medium group-hover:text-sky-700
                         transition line-clamp-2'
                     >
                         {title}
                     </div>
+
+                    {/*Category */}
                     <p
                         className='text-xs text-muted-foreground'
                     >
@@ -48,6 +55,8 @@ const CourseCard = ({ id, title, imageUrl, chaptersLength, price, progress, cate
                     </p>
 
                     <div className='my-3 flex items-center gap-x-2 text-sm md:text-xs'>
+
+                        {/*Chapter Length */}
                         <div className='flex items-center gap-x-1 text-slate-500'>
                             <IconBadge
                                 size="sm"
@@ -59,6 +68,9 @@ const CourseCard = ({ id, title, imageUrl, chaptersLength, price, progress, cate
                         </div>
                     </div>
 
+                    {/*If there is a course progress, a course progress is used
+                    to show the progress visually. If there is no progress, the 
+                    price of the course is displayed */}
                     {
                         progress !== null ? (
                             <CourseProgress
