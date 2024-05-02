@@ -1,3 +1,6 @@
+/*React component that represents the mobile sidebar that is visible in smaller
+screen but hidden in large screens */
+
 import React from 'react'
 import { Chapter, Course, UserProgress } from "@prisma/client"
 

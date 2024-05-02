@@ -1,3 +1,6 @@
+/*React component responsible for rendering the navigation bar specific to course page,
+providing users with access to course-specific information and navigation options */
+
 import NavbarRoutes from '@/components/NavbarRoutes';
 import { Chapter, Course, UserProgress } from '@prisma/client';
 import React from 'react'

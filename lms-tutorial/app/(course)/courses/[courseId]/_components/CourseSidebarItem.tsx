@@ -1,3 +1,5 @@
+/*React component responsible for rendering an item in the course sidebar */
+
 "use client"
 
 import { cn } from '@/lib/utils';
@@ -7,21 +9,25 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 
 type Props = {
-    label: string;
-    id: string;
-    isCompleted: boolean;
-    courseId: string;
-    isLocked: boolean;
+    label: string; //title of the sidebar item
+    id: string; //id of the sidebar item
+    isCompleted: boolean; //a boolean indicating whether the course is completed
+    courseId: string; //id of the course 
+    isLocked: boolean; //boolean indicating whether the course is locked
 }
 
 const CourseSidebarItem = ({ label, id, isCompleted, courseId, isLocked }: Props) => {
 
-    const pathname = usePathname();
-    const router = useRouter();
+    const pathname = usePathname(); //hook to get the url pathname
+    const router = useRouter(); //router object for navigation
 
-    const Icon = isLocked ? Lock : (isCompleted ? CheckCircle : PlayCircle);
-    const isActive = pathname?.includes(id);
+    const Icon = isLocked ? Lock : (isCompleted ? CheckCircle : PlayCircle); /*Depending
+    on whether the chapter is locked or completed, different icons are displayed */
 
+    const isActive = pathname?.includes(id);/*check if the sidebar item is selected */
+
+    /*a function that is called when user clicks on the sidebar item and navigates
+    the user to the chapter  */
     const onClick = () => {
         router.push(`/courses/${courseId}/chapters/${id}`);
     }
