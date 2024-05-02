@@ -1,3 +1,6 @@
+/*A react component that represents a reusable clickable button for representing
+category */
+
 "use client"
 
 import { cn } from '@/lib/utils';
@@ -15,15 +18,22 @@ type Props = {
 
 const CategoryItem = ({ label, value, icon: Icon }: Props) => {
 
-    const pathname = usePathname();
-    const router = useRouter();
-    const searchParams = useSearchParams();
+    const pathname = usePathname();//hook to get the url pathname
+    const router = useRouter(); //router object for navigation
+    const searchParams = useSearchParams();// hook to get the query params
 
-    const currentCategoryId = searchParams.get("categoryId");
-    const currentTitle = searchParams.get("title");
+    const currentCategoryId = searchParams.get("categoryId"); /*search the url for
+    query parameter categoryId */
 
-    const isSelected = currentCategoryId === value;
+    const currentTitle = searchParams.get("title");//get the title query parameter
 
+    const isSelected = currentCategoryId === value; /*Determines whether the
+    category represented by this item is currently selected */
+
+    /*A function that is called when the button is clicked. I constructs a new url
+    with updated query parameters using the qs.stringifyUrl function. If the category
+    is currently selected, the categoryId parameter is set to null to deselect the
+    category otherwise the category is set to valye */
     const onClick = () => {
         const url = qs.stringifyUrl({
             url: pathname,

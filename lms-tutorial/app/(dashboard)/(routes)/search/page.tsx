@@ -1,3 +1,5 @@
+/*A page for searching and displaying courses */
+
 import { db } from '@/lib/db'
 import React from 'react'
 import Categories from './_components/Categories';
@@ -17,12 +19,14 @@ type Props = {
 const SearchPage = async ({ searchParams }: Props) => {
 
 
-    const { userId } = auth();
+    const { userId } = auth(); //get the id of the current sign in user
 
     if (!userId) {
+        //if no signed in user, redirect to to home page
         return redirect("/")
     }
 
+    //get all the categories 
     const categories = await db.category.findMany({
         orderBy: {
             name: "asc"

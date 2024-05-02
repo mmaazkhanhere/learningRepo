@@ -1,3 +1,5 @@
+/*This component renders a list of categories represented by category item component */
+
 "use client"
 
 import { Category } from '@prisma/client'
@@ -18,6 +20,7 @@ type Props = {
     items: Category[]
 }
 
+/*list of categories along with their icons */
 const iconMap: Record<Category["name"], IconType> = {
     "Music": FcMusic,
     "Photography": FcOldTimeCamera,
@@ -29,8 +32,6 @@ const iconMap: Record<Category["name"], IconType> = {
 }
 
 const Categories = ({ items }: Props) => {
-
-
 
     return (
         <div
