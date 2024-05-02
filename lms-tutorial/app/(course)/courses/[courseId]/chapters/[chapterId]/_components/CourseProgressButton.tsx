@@ -1,3 +1,7 @@
+/*This component manages chapter completion status within a course. Users can
+easily toggle the completion state, and the interface responds with feedback
+messages and visual cues */
+
 "use client"
 import { Button } from '@/components/ui/button';
 import { useConfettiStore } from '@/hooks/use-confetti-store';
@@ -16,10 +20,15 @@ type Props = {
 
 const CourseProgressButton = ({ chapterId, courseId, isCompleted, nextChapterId }: Props) => {
 
-    const router = useRouter();
+    const router = useRouter();//router object for navigation
     const confetti = useConfettiStore();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); //loading state
 
+
+    /*An async function that is called when user clicks on the button. It updates
+    the progress of chapter by making a PUT request to the server, toggling the 
+    completion status of the chapter. If there is no new chapter, a confetti
+    is displayed. If there is nextChapter, user is directed to the new chapter*/
     const onClick = async () => {
         try {
             setIsLoading(true);

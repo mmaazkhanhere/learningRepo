@@ -1,3 +1,6 @@
+/*serves as a page to display details about a specific chapter within a course.
+It effectively presents chapter details, handles user authentication, and purchase
+state, and provides necessary actions for course progression and enrollment */
 
 import { getChapter } from '@/actions/get-chapter';
 import { Banner } from '@/components/Banner';
@@ -20,12 +23,15 @@ type Props = {
 
 const ChapterIdPage = async ({ params }: Props) => {
 
-    const { userId } = auth();
+    const { userId } = auth(); // get the id of the currently signed in user
 
     if (!userId) {
+        //if no signed in user, redirect to homepage
         return redirect("/")
     }
 
+    /*fetch the chapter and course detail and related data using the getChapter
+    function */
     const {
         chapter,
         course,
@@ -36,16 +42,24 @@ const ChapterIdPage = async ({ params }: Props) => {
         purchase
     } = await getChapter({ userId, chapterId: params.chapterId, courseId: params.courseId });
 
+
+    //if no course or chapter, redirect to homepage
     if (!chapter || !course) {
         return redirect('/')
     }
 
-    const isLocked = !chapter.isFree && !purchase;
-    const completeOnEnd = !!purchase && !userProgress?.isCompleted
+    const isLocked = !chapter.isFree && !purchase; /*a course is locked if it
+    is not free and if it is not purchased */
+
+    const completeOnEnd = !!purchase && !userProgress?.isCompleted/*a boolean value
+    that indicates whether the chapter should be marked as completed when the video
+    playback ends */
 
 
     return (
         <div>
+
+            {/*If user has completed the course, display completion banner */}
             {
                 userProgress?.isCompleted && (
                     <Banner
@@ -54,6 +68,8 @@ const ChapterIdPage = async ({ params }: Props) => {
                     />
                 )
             }
+
+            {/*If the course is locked, display course locked banner */}
             {
                 isLocked && (
                     <Banner
@@ -66,6 +82,7 @@ const ChapterIdPage = async ({ params }: Props) => {
             <div
                 className='flex flex-col max-w-4xl mx-auto pb-20'
             >
+                {/*Video Player */}
                 <div className='p-4'>
                     <VideoPlayer
                         chapterId={params.chapterId}
@@ -78,11 +95,17 @@ const ChapterIdPage = async ({ params }: Props) => {
                     />
                 </div>
 
+
                 <div>
                     <div className='p-4 flex flex-col md:flex-row items-center justify-between'>
+
+                        {/*Chapter details */}
                         <h2 className='text-2xl font-semibold mb-2'>
                             {chapter.title}
                         </h2>
+
+                        {/*If a course is purchase, display course progress button
+                        or else display enroll button */}
                         {
                             purchase ? (
                                 <CourseProgressButton
@@ -102,12 +125,14 @@ const ChapterIdPage = async ({ params }: Props) => {
 
                     <Separator />
 
+                    {/*Course description */}
                     <div>
                         <Preview
                             value={chapter.description!}
                         />
                     </div>
 
+                    {/*Display course attachment if exist */}
                     {
                         !!attachments.length && (
                             <>

@@ -1,3 +1,6 @@
+/*This component facilitates enrolling in a course by rendering a button that
+when clicked, triggers a checkout process. */
+
 "use client"
 
 import { Button } from '@/components/ui/button';
@@ -13,8 +16,11 @@ type Props = {
 
 const CourseEnrollButton = ({ courseId, price }: Props) => {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); //loading state
 
+    /*an async function that is called when user clicks on enroll button. It makes
+    a post request to the specified api endpoint. If success response, it redirects
+    the user to that url */
     const onClick = async () => {
         try {
             setIsLoading(true);
@@ -33,6 +39,7 @@ const CourseEnrollButton = ({ courseId, price }: Props) => {
         <Button
             onClick={onClick}
             size='sm'
+            disabled={isLoading}
             className='w-full md:w-auto'
         >
             Enroll for {formatPrice(price)}
